@@ -1,0 +1,42 @@
+const express = require("express");
+const Authentication = require("../Controller/admin/auth_admin");
+const AddController = require("../Controller/admin/add_admin");
+
+
+const router = express.Router();
+const bcrypt = require('bcrypt-nodejs');
+const jwt=require("jsonwebtoken");
+const Middlewares = require('../Utils/middlewares'); 
+
+
+router.use(Middlewares.extractFromToken);
+
+router.post('/register',(req,res)=>{
+    Authentication.register(req,res,bcrypt);
+});
+
+//For login
+router.post('/login',(req,res)=>{
+    Authentication.login(req,res,bcrypt,jwt);
+});
+router.get('/verifytoken/:token',(req,res)=>{
+    Authentication.getAdmin(req,res,jwt);
+});
+
+
+//Add Institute
+router.post('/add/institute',Middlewares.checkAdmin,(req,res)=>{
+    AddController.addInstitute(req,res);
+});
+
+//Add Institute
+router.post('/add/hostel',Middlewares.checkAdmin,(req,res)=>{
+    AddController.addHostel(req,res);
+});
+
+
+
+
+
+
+module.exports=router;
