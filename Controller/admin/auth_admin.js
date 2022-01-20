@@ -1,21 +1,39 @@
 const Admins = require("../../Models/admins");
+const cloudinary = require ('cloudinary').v2;
 
-const register = (req,res,bcrypt)=>{
+const register = async(req,res,bcrypt)=>{
+    const file = req.file;
     const { email,name,password,phone,college } = req.body ;
+
+    
     if(!email || !name || !password || !phone || !college)
         return res.status(400).json('Pls Enter the credentials properly') ;
     
-    Admins.find({'email':email},(err,result)=>{
+    Admins.find({'email':email}, async(err,result)=>{
         if(result.length)
             return res.status(400).json("Admin with same mail already exists !") ;
         
         const hash = bcrypt.hashSync(password) ;
+        
+        cloudinary.config({ 
+            cloud_name: 'hosterr', 
+            api_key: '822942622811872', 
+            api_secret: '-BMRE1m2C0ciiE61eS3a89-Gi5s' 
+        });
+        let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
+            if (err) {
+                res.status (400).send ('document upload error');
+                return;
+            }
+        })
+
         new Admins({
             name,
             email,
             password:hash,
             phone,
-            college
+            college,
+            doc : test.secure_url
         }).save((err,result)=>{
             if(err){
                 console.log(err);
@@ -23,7 +41,6 @@ const register = (req,res,bcrypt)=>{
             }
             return res.status(200).json("You are registered, login to our app") ;
         });
-        
     })
 }
 

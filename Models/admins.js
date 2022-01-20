@@ -26,6 +26,7 @@ const schema = new mongoose.Schema({
         },
         doc:{
             type:String,
+            required : true
         }
     },{
         timestamps:true
