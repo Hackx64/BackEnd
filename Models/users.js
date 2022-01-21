@@ -16,9 +16,25 @@ const schema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'Institutes'
         },
+        gender:{
+            type:String,
+            enum:["Boys","Girls"],
+            required:true
+        },
+        roll:{
+            type:String,
+            unique:true
+        },
+        year:{
+            type:Number,
+            required:true
+        },
+        department: String ,
+        image: String ,
         hostel:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Hotels'
+            ref:'Hotels',
+            default: NULL
         },
         room:{
             type:mongoose.Schema.Types.ObjectId,
