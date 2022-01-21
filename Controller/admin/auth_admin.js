@@ -1,5 +1,6 @@
 const Admins = require("../../Models/admins");
 const cloudinary = require ('cloudinary').v2;
+const fs = require("fs");
 
 const register = async(req,res,bcrypt)=>{
     const file = req.file;
@@ -13,19 +14,17 @@ const register = async(req,res,bcrypt)=>{
         if(result.length)
             return res.status(400).json("Admin with same mail already exists !") ;
         
-        const hash = bcrypt.hashSync(password) ;
-        
         cloudinary.config({ 
             cloud_name: 'hosterr', 
-            api_key: '822942622811872', 
-            api_secret: '-BMRE1m2C0ciiE61eS3a89-Gi5s' 
+            api_key: process.env.CLOUDINARY_API_KEY, 
+            api_secret: process.env.CLOUDINARY_API_SECRET 
         });
         let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
-            if (err) {
-                res.status (400).send ('document upload error');
-                return;
-            }
-        })
+            if (err) 
+                return res.status (400).send ('document upload error');
+        });
+
+        const hash = bcrypt.hashSync(password) ;
 
         new Admins({
             name,
@@ -41,6 +40,8 @@ const register = async(req,res,bcrypt)=>{
             }
             return res.status(200).json("You are registered, login to our app") ;
         });
+
+        fs.unlinkSync(file.path);
     })
 }
 

@@ -30,12 +30,15 @@ router.post('/add/institute',Middlewares.checkAdmin,(req,res)=>{
     AddController.addInstitute(req,res);
 });
 
-//Add Institute
+//Add Hostel
 router.post('/add/hostel',Middlewares.checkAdmin,(req,res)=>{
     AddController.addHostel(req,res);
 });
 
-
+//Add Room
+router.post('/add/room',Middlewares.checkAdmin,(req,res)=>{
+    AddController.addRoom(req,res);
+});
 
 
 

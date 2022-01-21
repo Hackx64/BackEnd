@@ -1,6 +1,7 @@
 const Institutes=require("../../Models/institutes");
 const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
+const Rooms = require("../../Models/hostel_rooms");
 
 const addInstitute=(req,res)=>{
     const {name, address} = req.body;
@@ -38,7 +39,23 @@ const addHostel=async (req,res)=>{
     });
 }
 
+const addRoom= async(req,res)=>{
+    try {
+        const {hostelId, roomType} = req.body;
+        const room  = await Rooms.create({
+            roomType
+        });
+        const hostel = await Hostels.findById(hostelId);
+        hostel.rooms.push(room.id);
+        await hostel.save();
+        res.status(200).json(room);
+    } catch (err) {
+        res.status(400).json({message:"Bad Request.",err:err});
+    }
+}
+
 module.exports={
     addInstitute,
-    addHostel
+    addHostel,
+    addRoom
 }
