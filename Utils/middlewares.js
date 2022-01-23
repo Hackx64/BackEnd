@@ -25,6 +25,12 @@ const checkAdmin = async (req,res,next)=>{
         return res.status(403).json("You are not an Admin!");
 }
 
+const checkUserAuthentication = (req,res,next)=>{
+    if(!req.user)
+        return res.status(401).json("You are not authenticated.");
+    next();
+}
+
 
 module.exports={
     checkAdmin,

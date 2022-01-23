@@ -1,10 +1,12 @@
 const Register = require('../Controller/register');
 const Login = require('../Controller/login');
+const Payment = require('../Controller/payment');
 
 const express=require("express");
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require ('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 
 const router=express.Router();
@@ -29,6 +31,15 @@ router.post('/login',(req,res)=>{
 });
 router.get('/verifytoken/:token',(req,res)=>{
     Login.getuser(req,res,jwt)
+});
+
+
+
+
+//payment
+
+router.post('/pay', (req, res) => {
+    Payment.makePayment(req,res,stripe);
 });
 
 

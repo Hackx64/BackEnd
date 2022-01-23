@@ -34,7 +34,7 @@ const schema = new mongoose.Schema({
         hostel:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'Hotels',
-            default: NULL
+            default: null
         },
         room:{
             type:mongoose.Schema.Types.ObjectId,
