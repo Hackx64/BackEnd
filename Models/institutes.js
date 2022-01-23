@@ -8,7 +8,7 @@ const instituteSchema= new mongoose.Schema({
     },
     hostels:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Hostel'
+        ref:'Hostels'
     }]
 },{
     timestamps:true

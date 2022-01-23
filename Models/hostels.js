@@ -17,7 +17,7 @@ const hostelSchema= new mongoose.Schema({
     }
     ,rooms:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Hostel_Room'
+        ref:'HostelRooms'
     }]
 },{
     timestamps:true

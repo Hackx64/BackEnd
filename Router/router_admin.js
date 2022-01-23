@@ -36,6 +36,7 @@ router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 
 //Find Rooms
+router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
 
 
