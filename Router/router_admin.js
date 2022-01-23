@@ -1,10 +1,11 @@
 const express = require("express");
+const router = express.Router();
 const Authentication = require("../Controller/admin/auth_admin");
 const AddController = require("../Controller/admin/add_admin");
+const FindController = require("../Controller/admin/find_admin");
+
 const multer = require ('multer');
 const upload = multer ({dest : 'Uploads/'});
-
-const router = express.Router();
 const bcrypt = require('bcrypt-nodejs');
 const jwt=require("jsonwebtoken");
 const Middlewares = require('../Utils/middlewares'); 
@@ -26,19 +27,16 @@ router.get('/verifytoken/:token',(req,res)=>{
 
 
 //Add Institute
-router.post('/add/institute',Middlewares.checkAdmin,(req,res)=>{
-    AddController.addInstitute(req,res);
-});
+router.post('/add/institute',Middlewares.checkAdmin,AddController.addInstitute);
 
 //Add Hostel
-router.post('/add/hostel',Middlewares.checkAdmin,(req,res)=>{
-    AddController.addHostel(req,res);
-});
+router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 
 //Add Room
-router.post('/add/room',Middlewares.checkAdmin,(req,res)=>{
-    AddController.addRoom(req,res);
-});
+router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
+
+//Find Rooms
+router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
 
 
 
