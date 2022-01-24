@@ -33,7 +33,7 @@ const schema = new mongoose.Schema({
         image: String ,
         hostel:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Hotels',
+            ref:'Hostels',
             default: null
         },
         room:{

@@ -40,6 +40,10 @@ router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
 
 
+//Find occupied room
+router.get('/rooms/occupied',FindController.findOccupiedRooms);
+
+
 
 
 module.exports=router;

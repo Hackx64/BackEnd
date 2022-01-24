@@ -2,6 +2,7 @@ const Institutes=require("../../Models/institutes");
 const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
+const Users = require("../../Models/users");
 
 
 const findAllRooms = async (req,res)=>{
@@ -48,7 +49,24 @@ const findAllFreeRooms = async (req,res)=>{
 }
 
 
+const findOccupiedRooms = async (req,res)=>{
+    try {
+        const users = await Users.find({}).populate({path:'hostel'});
+        console.log(users);
+        const rooms=[];
+        users.forEach(user=>{
+            if(user.room)
+                rooms.push(user.room);
+        });
+        res.status(200).json(rooms);
+    } catch (error) {
+        res.status(500).json({message:"Internal Server Error while fetching ocuupied room",error});
+    }
+}
+
+
 module.exports={
     findAllFreeRooms,
-    findAllRooms
+    findAllRooms,
+    findOccupiedRooms
 }
