@@ -1,7 +1,7 @@
 const Register = require('../Controller/register');
 const Login = require('../Controller/login');
 const Payment = require('../Controller/payment');
-const SendApplication = require ('../Controller/hostel_application');
+const Application = require ('../Controller/hostel_application');
 const express=require("express");
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require ('jsonwebtoken');
@@ -35,10 +35,12 @@ router.get('/verifytoken/:token',(req,res)=>{
 
 //for booking a hostel
 router.post ('/application', (req, res) => {
-    SendApplication.sendApplication (req, res);
+    Application.sendApplication (req, res);
+})  
+
+router.get ('/getHostel', (req, res) => {
+    Application.getHostel (res, res);    
 })
-
-
 //payment
 
 router.post('/pay', (req, res) => {

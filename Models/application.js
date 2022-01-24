@@ -8,6 +8,11 @@ const schema = new mongoose.Schema ({
     student_disability_status : {
         type : String,
         required : true
+    },
+    status : { 
+        type : String,
+        enum: ["AC", "RJ", null],
+        default : null
     }
 })
 const Application = mongoose.model ('application', schema);
