@@ -1,12 +1,16 @@
 const Admins = require("../../Models/admins");
+const Institutes = require("../../Models/institutes"); 
 const cloudinary = require ('cloudinary').v2;
 const fs = require("fs");
+const {addInstitute} = require("./add_admin");
 
 const register = async(req,res,bcrypt)=>{
     const file = req.file;
     const { email,name,password,phone,college } = req.body ;
-
     
+    college = college.toUpperCase(); 
+    const instituteExists = await Institutes.exists({name:college});
+    if(instituteExists)return res.status(403).json("Admin of that Institute already exists");
     if(!email || !name || !password || !phone || !college)
         return res.status(400).json('Pls Enter the credentials properly') ;
     
@@ -40,7 +44,6 @@ const register = async(req,res,bcrypt)=>{
             }
             return res.status(200).json("You are registered, login to our app") ;
         });
-
         fs.unlinkSync(file.path);
     })
 }
