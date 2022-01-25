@@ -3,6 +3,7 @@ const router = express.Router();
 const Authentication = require("../Controller/admin/auth_admin");
 const AddController = require("../Controller/admin/add_admin");
 const FindController = require("../Controller/admin/find_admin");
+const ApplicationController =require("../Controller/admin/appliations_admin");
 
 const multer = require ('multer');
 const upload = multer ({dest : 'Uploads/'});
@@ -39,6 +40,15 @@ router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
 
+
+//Find occupied room
+router.get('/rooms/occupied',FindController.findOccupiedRooms);
+
+
+//Applications
+router.get('/application/findApplications',ApplicationController.findAllApplocations);
+router.get('/application/accept',ApplicationController.accept);
+router.get('/application/reject',ApplicationController.reject);
 
 
 

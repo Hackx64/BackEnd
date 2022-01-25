@@ -3,19 +3,14 @@ const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
 
-const addInstitute=(req,res)=>{
-    const {name, address} = req.body;
-    const admin = req.user;
+const addInstitute=async (req,res)=>{
+    const admin = await Admins.findById(req.user.id,{college:1});
     Institutes.create({
-        name,
-        address
+        name:admin.college,
     },async (err,newInstitute)=>{
         if(err)
             return res.status(500).json("Error in creating new Institue in the Database");
         await Admins.findOneAndUpdate({id:admin.id},{institute:newInstitute.id});
-        res.status(200).json({
-            newInstitute
-        });
     });
 } 
 

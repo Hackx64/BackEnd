@@ -23,7 +23,8 @@ const schema = new mongoose.Schema({
         },
         roll:{
             type:String,
-            unique:true
+            unique:true,
+            required:true
         },
         year:{
             type:Number,
@@ -33,7 +34,7 @@ const schema = new mongoose.Schema({
         image: String ,
         hostel:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Hotels',
+            ref:'Hostels',
             default: null
         },
         room:{
