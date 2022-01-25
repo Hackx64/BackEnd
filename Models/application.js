@@ -1,6 +1,10 @@
 const mongoose = require ('mongoose');
 
 const schema = new mongoose.Schema ({
+    student_id :{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Users'
+    }, 
     student_email : {
         type : String,
         required : true

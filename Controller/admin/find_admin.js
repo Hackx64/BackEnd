@@ -5,6 +5,7 @@ const Rooms = require("../../Models/hostel_rooms");
 const Users = require("../../Models/users");
 
 
+
 const findAllRooms = async (req,res)=>{
     try {
         const {id} = req.user;
@@ -63,6 +64,9 @@ const findOccupiedRooms = async (req,res)=>{
         res.status(500).json({message:"Internal Server Error while fetching ocuupied room",error});
     }
 }
+
+
+
 
 
 module.exports={
