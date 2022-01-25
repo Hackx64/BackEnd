@@ -66,6 +66,18 @@ const reject = async (req,res)=>{
     }
 }
 
+
+function bookRoom(id){
+    let student = await Users.findById(id);
+    let year = student.year;
+    let room_size=null;
+    if(year===1)room_size=3;
+    else if(year==2)room_size=2;
+    else
+        room_size=1;
+    
+}
+
 module.exports={
     findAllApplocations,
     accept,
