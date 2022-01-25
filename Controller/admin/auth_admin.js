@@ -3,16 +3,16 @@ const cloudinary = require ('cloudinary').v2;
 const fs = require("fs");
 
 const register = async(req,res,bcrypt)=>{
-    const file = req.file;
-    const { email,name,password,phone,college } = req.body ;
-
+    const file = req.file ;
+    const { email,name,password,phone,college} = req.body ;
+    console.log(file,email) ;
     
     if(!email || !name || !password || !phone || !college)
         return res.status(400).json('Pls Enter the credentials properly') ;
     
     Admins.find({'email':email}, async(err,result)=>{
         if(result.length)
-            return res.status(400).json("Admin with same mail already exists !") ;
+            return res.status(200).json("Admin with same mail already exists !") ;
         
         cloudinary.config({ 
             cloud_name: 'hosterr', 
@@ -53,8 +53,8 @@ const login = (req,res,bcrypt,jwt)=>{
             if(bcrypt.compareSync(password , result[0].password))
             {
                 const {id,institute,name} = result[0] ;
-                const token = jwt.sign ({id, name, email, institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
-                return res.status(200).json({token}) ;
+                //const token = jwt.sign ({id, name, email, institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
+                return res.status(200).json({id, name, email, institute}) ;
             }
             return res.status(401).json("Wrong Password") ;
         }

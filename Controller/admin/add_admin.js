@@ -41,14 +41,24 @@ const addHostel=async (req,res)=>{
 
 const addRoom= async(req,res)=>{
     try {
-        const {hostelId, roomType} = req.body;
+        const {hostelname,roomno,fees,roomType} = req.body;
+        //console.log('reached') ;
+        const [hostel] = await Hostels.find({"name":hostelname});
+        //console.log(hostel) ;
+        
+        const hostelId = hostel._id ;
+        //console.log(hostelId) ;
         const room  = await Rooms.create({
-            roomType
-        });
-        const hostel = await Hostels.findById(hostelId);
-        hostel.rooms.push(room.id);
+            roomType ,
+            hostelId ,
+            fees ,
+            roomno ,
+        });     
+        hostel.rooms.push(room._id);
+        //console.log(room._id) ;
         await hostel.save();
-        res.status(200).json(room);
+
+        res.status(200).json("Room added Succesfully !");
     } catch (err) {
         res.status(400).json({message:"Bad Request.",err:err});
     }
