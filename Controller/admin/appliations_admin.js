@@ -75,6 +75,7 @@ function bookRoom(id){
     else if(year==2)room_size=2;
     else
         room_size=1;
+    let gender = student.gender;
     
 }
 

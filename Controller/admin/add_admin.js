@@ -22,7 +22,7 @@ const addHostel=async (req,res)=>{
     Hostels.create({
         name,
         gender,
-        address
+        address,
     },async (err,newHostel)=>{
         if(err)
             return res.status(500).json({message:"Error in creating New Hostel in the Database",error:err});
