@@ -6,7 +6,8 @@ const sendApplication = (req, res) => {
     Users.find ({'email' : email}, (err, result) => {
         if (result.length) {
             new Application ({
-                email,
+                id:result.id,
+                email:student_email,
                 disability_status
             }).save ((err, res) => {
                 if (err) {

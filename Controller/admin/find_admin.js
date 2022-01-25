@@ -3,7 +3,7 @@ const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
 const Users = require("../../Models/users");
-const Applications = require("../../Models/application");
+
 
 
 const findAllRooms = async (req,res)=>{
@@ -65,15 +65,7 @@ const findOccupiedRooms = async (req,res)=>{
     }
 }
 
-const findAllApplocations = async (req,res)=>{
-    try {
-        const applications = await Applications.find({});
-        res.status(200).json(applications);
-    } catch (error) {
-        res.status(500).json({message:"Error while fetching from Database",error});
-    }
 
-}
 
 
 

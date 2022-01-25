@@ -31,7 +31,39 @@ function verificationMailGen(token,email){
     return verficationMail;
 }
 
+function acceptMail(email){
+    const CLIENT_URL=process.env.CLIENT_URL;
+    let mail = {
+        from : 'hosteer177@gmail.com',
+        to:email,
+        subject: "Hostel Status",
+        text : "Your application for a hostel has been accepted!",
+        html : `
+        <h2>Please visit our website to see room details</h2>
+        <a href="${CLIENT_URL}">Click Here visit</a>
+        `
+    }
+    return mail;
+}
+
+function rejectMail(email){
+    const CLIENT_URL=process.env.CLIENT_URL;
+    let mail = {
+        from : 'hosteer177@gmail.com',
+        to:email,
+        subject: "Hostel Status",
+        text : "Your application for a hostel HAS NOT been accepted",
+        html : `
+        <h2>Please visit our website to apply again with updated credentials</h2>
+        <a href="${CLIENT_URL}">Click Here visit</a>
+        `
+    }
+    return mail;
+}
+
 module.exports={
     transporter,
-    verificationMailGen
+    verificationMailGen,
+    acceptMail,
+    rejectMail
 }
