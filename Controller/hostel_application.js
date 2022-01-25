@@ -3,35 +3,22 @@ const Users = require ('../Models/users');
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
-    Users.find ({'email' : email}, (err, result) => {
-        if (result.length) {
-<<<<<<< HEAD
-            Application.findOne ({'email' : email}, (err, result_application) => {
-                if (result_application.length) {
-=======
+    Users.findOne({'email' : email}, async (err, result) => {
+        if (result) {
+            const flag = await Application.exists({student_email:email,status:null});
+            if(flag)return res.status(400).json("You have already applied");
             new Application ({
-                id:result.id,
-                email:student_email,
-                disability_status
-            }).save ((err, res) => {
+                student_id:result.id,
+                student_email:email,
+                student_disability:disability_status
+            }).save ((err, result) => {
                 if (err) {
                     console.log (err);
->>>>>>> 3ecfeb9d697120066279f09b3973e3b3be3d7b16
                     res.status (400).json ({message : "Bad Request"});
                 }
                 else {
-                    new Application ({
-                        email,
-                        disability_status
-                    }).save ((err, res_app) => {
-                        if (err) {
-                            console.log (err);
-                            res.status (400).json ({message : "Bad Request"});
-                        }
-                        else {
-                            res.status(200).json ({message : "Application for hostel booking submitted successfully"});
-                        }
-                    })
+                    console.log(result);
+                    res.status(200).json ({message : "Application for hostel booking submitted successfully"});
                 }
             })
         }

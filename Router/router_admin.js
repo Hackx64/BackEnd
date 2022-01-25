@@ -46,7 +46,7 @@ router.get('/rooms/occupied',FindController.findOccupiedRooms);
 
 
 //Applications
-router.get('/application/findApplications',ApplicationController.findAllApplocations);
+router.get('/findApplications',ApplicationController.findAllApplocations);
 router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 
