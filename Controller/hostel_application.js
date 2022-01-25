@@ -5,16 +5,23 @@ const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
     Users.find ({'email' : email}, (err, result) => {
         if (result.length) {
-            new Application ({
-                email,
-                disability_status
-            }).save ((err, res) => {
-                if (err) {
-                    console.log (err);
+            Application.findOne ({'email' : email}, (err, result_application) => {
+                if (result_application.length) {
                     res.status (400).json ({message : "Bad Request"});
                 }
                 else {
-                    res.status(200).json ({message : "Application for hostel booking submitted successfully"});
+                    new Application ({
+                        email,
+                        disability_status
+                    }).save ((err, res_app) => {
+                        if (err) {
+                            console.log (err);
+                            res.status (400).json ({message : "Bad Request"});
+                        }
+                        else {
+                            res.status(200).json ({message : "Application for hostel booking submitted successfully"});
+                        }
+                    })
                 }
             })
         }

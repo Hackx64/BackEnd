@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require ('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
-
+const Feedback = require ('../Controller/feedback');
 
 const router=express.Router();
 
@@ -47,5 +47,9 @@ router.post('/pay', (req, res) => {
     Payment.makePayment(req,res,stripe);
 });
 
+//feedback service
+router.post ('/feedback', (req, res) => {
+    Feedback.feedbackService(req, res);
+})
 
 module.exports=router;
