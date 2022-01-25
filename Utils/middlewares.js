@@ -15,9 +15,10 @@ const extractFromToken = (req,res,next)=>{
 }  
 
 const checkAdmin = async (req,res,next)=>{
-    if(!req.user)
+    //console.log(req.user) ;
+    if(!req.body.user)
         return res.status(401).json("You are not authenticated.");
-    const {id} = req.user;
+    const id = req.body.user;
     const flag = await Admins.exists({id:id}); 
     if(flag)
         next();

@@ -14,7 +14,7 @@ const Middlewares = require('../Utils/middlewares');
 
 router.use(Middlewares.extractFromToken);
 
-router.post('/register',upload.single ('image'), (req,res)=>{
+router.post('/register',upload.single ('file'), (req,res)=>{
     Authentication.register(req,res,bcrypt);
 });
 

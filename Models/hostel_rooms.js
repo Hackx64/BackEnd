@@ -7,13 +7,27 @@ const hostelRoomSchema= new mongoose.Schema({
         required:true
     },
     full:{
-        type:Boolean,   //
+        type:Boolean,   
         default:false
     },
     residents:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Users'
-    }]
+    }],
+    hostelId:{
+        type:mongoose.Schema.Types.ObjectId, 
+        ref:'Hostels',
+        required:true
+    },
+    fees:{
+        type:Number,
+        required:true
+    },
+    roomno:{
+        type:Number,
+        required:true ,
+        unique:true
+    }
 },{
     timestamps:true
 });

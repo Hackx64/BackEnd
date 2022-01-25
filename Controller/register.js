@@ -3,12 +3,13 @@ const {transporter,verificationMailGen}=require("../Utils/nodemailer");
 
 const register = (req,res,nodemailer,jwt)=>{
     const { email,name,password,phone,college } = req.body ;
+    console.log(req.body) ;
     if(!email || !name || !password || !phone || !college){
         return res.status(400).json('Pls Enter the credentials properly') ;
     }
     Users.find({'email':email},(err,result)=>{
         if(result.length){
-            return res.status(400).json("User with same mail already exists !") ;
+            return res.status(200).json("User with same mail already exists !") ;
         }
         const token = jwt.sign ({name, email, college, password, phone}, process.env.JWT_SECRET_KEY, {expiresIn : '20m'});
             
