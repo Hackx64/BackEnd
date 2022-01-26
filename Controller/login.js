@@ -10,8 +10,8 @@ const login = (req,res,bcrypt,jwt)=>{
             {
                 const {id,institute,name} = result[0] ;
                 const api_key = process.env.api_key ;
-                const token = jwt.sign ({id, name, email,institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
-                res.status(200).json({token}) ;
+                //const token = jwt.sign ({id, name, email,institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
+                res.status(200).json({id,name,email,institute}) ;
             }
             else res.status(401).json("Wrong Password") ;
         }

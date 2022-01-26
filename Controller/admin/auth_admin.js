@@ -55,9 +55,9 @@ const login = (req,res,bcrypt,jwt)=>{
         {
             if(bcrypt.compareSync(password , result[0].password))
             {
-                const {id,college,name} = result[0] ;
+                const {id,college,name,institute} = result[0] ;
                 //const token = jwt.sign ({id, name, email, institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
-                return res.status(200).json({id, name, email, college}) ;
+                return res.status(200).json({id, name, email, college, institute}) ;
             }
             return res.status(401).json("Wrong Password") ;
         }
