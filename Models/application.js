@@ -9,8 +9,8 @@ const schema = new mongoose.Schema ({
         type : String,
         required : true
     },
-    student_disability_status : {
-        type : String,
+    student_disability: {
+        type : Boolean,
         required : true
     },
     status : { 

@@ -48,7 +48,7 @@ router.get('/rooms/occupied',FindController.findOccupiedRooms);
 router.post('/hostels/all',Middlewares.checkAdmin,FindController.findAllHostel) ;
 
 //Applications
-router.get('/application/findApplications',ApplicationController.findAllApplocations);
+router.get('/findApplications',ApplicationController.findAllApplocations);
 router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 

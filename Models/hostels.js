@@ -6,6 +6,11 @@ const hostelSchema= new mongoose.Schema({
         unique:true,
         required:true
     },
+    institute:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Institutes',
+        required:true
+    },
     gender:{
         type:String,   //TRUE for Boys and FALSE for Girls
         enum:["Boys","Girls"],
