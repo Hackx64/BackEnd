@@ -3,15 +3,10 @@ const Users = require ('../Models/users');
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
-<<<<<<< HEAD
-    Users.find ({'email' : email}, (err, result) => {
-        if (result.length) {
-=======
     Users.findOne({'email' : email}, async (err, result) => {
         if (result) {
             const flag = await Application.exists({student_email:email,status:null});
             if(flag)return res.status(400).json("You have already applied");
->>>>>>> 7b368225f117a973a44420a860bcfd445bb559f2
             new Application ({
                 student_id:result.id,
                 student_email:email,
