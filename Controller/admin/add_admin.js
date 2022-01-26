@@ -2,6 +2,7 @@ const Institutes=require("../../Models/institutes");
 const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
+const Canteens = require("../../Models/canteen");
 
 const addInstitute=async (req,res)=>{
     const admin = await Admins.findById(req.user.id,{college:1});
@@ -15,19 +16,23 @@ const addInstitute=async (req,res)=>{
 } 
 
 const addHostel=async (req,res)=>{
-    const {id} = req.user;
-    const admin = await Admins.findById(id,{email:1,institute:1});
-    const institute = await Institutes.findById(admin.institute);
+    const id = req.body.user;
+    const admin = await Admins.findById(id);
+    const [institute] = await Institutes.find({"name":admin.college});
+    //console.log(institute) ;
     const {name, address, gender} = req.body;
+    const college = admin.college;
     Hostels.create({
         name,
         gender,
-        address
+        address,
+        institute:admin.institute
     },async (err,newHostel)=>{
         if(err)
             return res.status(500).json({message:"Error in creating New Hostel in the Database",error:err});
-        institute.hostels.push(newHostel.id);
+        institute.hostels.push(newHostel._id);
         await institute.save();
+        //console.log(institute) ;
         res.status(200).json({
             newHostel
         });
@@ -37,30 +42,50 @@ const addHostel=async (req,res)=>{
 const addRoom= async(req,res)=>{
     try {
         const {hostelname,roomno,fees,roomType} = req.body;
+        console.log(req.body) ;
         //console.log('reached') ;
-        const [hostel] = await Hostels.find({"name":hostelname});
-        //console.log(hostel) ;
+        const [hostel] = await Hostels.find({"name":hostelname}) ;
         
         const hostelId = hostel._id ;
-        //console.log(hostelId) ;
+        const Room = await Rooms.find({"hostelId":hostelId , "roomno":roomno}) ;
+        //console.log(Room)
+        if(Room.length > 0) return res.status(200).json("Room with same room number already exists in the hostel") ;
         const room  = await Rooms.create({
             roomType ,
             hostelId ,
             fees ,
             roomno ,
         });     
+        console.log(Room) ;
         hostel.rooms.push(room._id);
         //console.log(room._id) ;
         await hostel.save();
 
         res.status(200).json("Room added Succesfully !");
     } catch (err) {
+        console.log(err) ;
         res.status(400).json({message:"Bad Request.",err:err});
     }
+}
+
+const addCanteen = async(req,res)=>{
+    const {name,start,end} = req.body;
+    const admin = req.user;
+    const institute = admin.institute;
+    Canteens.create({
+        name,
+        start,
+        end,
+        institute
+    },(err,canteen)=>{
+        if(err)return res.status(400).json({msg:"Not required details to create Canteen.",err});
+        res.status(200).json(canteen);
+    });
 }
 
 module.exports={
     addInstitute,
     addHostel,
-    addRoom
+    addRoom,
+    addCanteen
 }

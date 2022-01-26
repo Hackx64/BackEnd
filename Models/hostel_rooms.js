@@ -6,10 +6,6 @@ const hostelRoomSchema= new mongoose.Schema({
         enum:[1,2,3],
         required:true
     },
-    hostel:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Hostels'
-    },
     full:{
         type:Boolean,   
         default:false
@@ -29,8 +25,7 @@ const hostelRoomSchema= new mongoose.Schema({
     },
     roomno:{
         type:Number,
-        required:true ,
-        unique:true
+        required:true 
     }
 },{
     timestamps:true

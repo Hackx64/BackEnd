@@ -14,21 +14,19 @@ const schema = new mongoose.Schema({
         },
         institute:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Institutes'
+            ref:'Institutes',
+            required:true
         },
         gender:{
             type:String,
-            enum:["Boys","Girls"],
-            required:true
+            enum:["Boys","Girls"]
         },
         roll:{
             type:String,
-            unique:true,
-            required:true
+            default: null
         },
         year:{
-            type:Number,
-            required:true
+            type:Number
         },
         department: String ,
         image: String ,

@@ -1,15 +1,16 @@
+const Institutes = require("../Models/institutes");
 const Users = require("../Models/users");
 
 const login = (req,res,bcrypt,jwt)=>{
     const {email, password} = req.body ;
-    Users.find({'email':email},(err,result)=>{
+    Users.find({'email':email},async (err,result)=>{
         if(result.length)
         {
             if(bcrypt.compareSync(password , result[0].password))
             {
-                const {id,college,name} = result[0] ;
+                const {id,institute,name} = result[0] ;
                 const api_key = process.env.api_key ;
-                const token = jwt.sign ({id, name, email,college}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
+                const token = jwt.sign ({id, name, email,institute}, process.env.JWT_SECRET_KEY, {expiresIn : '60m'});
                 res.status(200).json({token}) ;
             }
             else res.status(401).json("Wrong Password") ;

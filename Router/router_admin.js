@@ -36,6 +36,9 @@ router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 //Add Room
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 
+//Add Canteen
+router.post('/add/canteen',Middlewares.checkAdmin,AddController.addCanteen);
+
 //Find Rooms
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
@@ -44,9 +47,11 @@ router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms)
 //Find occupied room
 router.get('/rooms/occupied',FindController.findOccupiedRooms);
 
+//Find all hostels of a College
+router.post('/hostels/all',Middlewares.checkAdmin,FindController.findAllHostel) ;
 
 //Applications
-router.get('/application/findApplications',ApplicationController.findAllApplocations);
+router.get('/findApplications',ApplicationController.findAllApplocations);
 router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 

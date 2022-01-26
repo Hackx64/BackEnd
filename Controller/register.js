@@ -1,3 +1,4 @@
+const Institutes = require("../Models/institutes");
 const Users = require("../Models/users");
 const {transporter,verificationMailGen}=require("../Utils/nodemailer");
 
@@ -36,16 +37,19 @@ const verify = async (req,res,bcrypt,jwt)=>{
         }
         const {name, email, college, password, phone} = decodedToken;
         const doesUserExit=await Users.exists({email:email});
-        if(doesUserExit)
+        const [cllg] = await Institutes.find({"name":college}) ;
+        const institute = cllg._id ;
+        if(doesUserExit.length)
             return res.status(200).json('You are already registered , Pls go and login') ;
 
         const hash = bcrypt.hashSync(password) ;
+        console.log(name,email,password,phone,institute)
         new Users({
             name,
             email,
             password:hash,
             phone,
-            college
+            institute
         }).save((err,result)=>{
             if(err){
                 console.log(err);

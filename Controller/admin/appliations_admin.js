@@ -25,16 +25,26 @@ const accept = async (req,res)=>{
         const email = application.student_email;
         await application.save();
         const mail = acceptMail(email);
-        let info = transporter.sendMail (mail, (error, info) => {
-            if(error) {
-                console.log (error);
-                res.status(500).json ({message : 'Error in sending mail about hostel room being accepted',error});
-            }else {
-                console.log ('Message sent : ' + info.response);
-                res.status(200).json('Mail sent successfully !');
-            }
-        });
-        res.status(200).json("Application accepted!");
+        bookRoom(application.student_id)
+        .then((hostels)=>{
+            let room=null;
+            hostels.forEach(h => {
+                if(h.rooms.length)
+                    room=h.rooms[0].id;
+            });
+            console.log(room);
+            res.status(200).json({msg:"Application accepted!",rooms});
+            let info = transporter.sendMail (mail, (error, info) => {
+                if(error) {
+                    console.log (error);
+                    res.status(500).json ({message : 'Error in sending mail about hostel room being accepted',error});
+                }else {
+                    console.log ('Message sent : ' + info.response);
+                    res.status(200).json('Mail sent successfully !');
+                }
+            });
+        })
+        .catch((err)=>res.status(500).json({msg:"Failed to book hostel room",err}));
     } catch (error) {
         res.status(500).json({msg:"Failed to save application to Db",error});
     }
@@ -67,15 +77,24 @@ const reject = async (req,res)=>{
 }
 
 
-async function bookRoom(id){
-    let student = await Users.findById(id);
-    let year = student.year;
-    let room_size=null;
-    if(year===1)room_size=3;
-    else if(year==2)room_size=2;
-    else
-        room_size=1;
-    
+function bookRoom(id){
+    return new Promise(async(resolve,reject)=>{
+        let student = await Users.findById(id);
+        console.log(student);
+        let year = student.year;
+        let room_size=null;
+        if(year===1)room_size=3;
+        else if(year==2)room_size=2;
+        else
+            room_size=1;
+        let gender = student.gender;
+        Hostels.find({gender:gender}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
+            //console.log(err);
+            if(err)
+                return reject(err);
+            resolve(res);
+        });
+    });
 }
 
 module.exports={

@@ -64,7 +64,16 @@ const findOccupiedRooms = async (req,res)=>{
         res.status(500).json({message:"Internal Server Error while fetching ocuupied room",error});
     }
 }
-
+const findAllHostel = async (req,res)=>{
+    try{
+      console.log(req.body.institute) ;
+      const hostels = await Hostels.find({"college":req.body.institute}) ;
+      res.status(200).json(hostels) ;
+    }
+    catch (error) {
+        res.status(500).json({message:"Internal Server Error while fetching ocuupied room",error});
+    }
+} 
 
 
 
@@ -72,5 +81,6 @@ const findOccupiedRooms = async (req,res)=>{
 module.exports={
     findAllFreeRooms,
     findAllRooms,
-    findOccupiedRooms
+    findOccupiedRooms,
+    findAllHostel
 }
