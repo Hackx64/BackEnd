@@ -1,8 +1,9 @@
+const Institutes = require("../Models/institutes");
 const Users = require("../Models/users");
 
 const login = (req,res,bcrypt,jwt)=>{
     const {email, password} = req.body ;
-    Users.find({'email':email},(err,result)=>{
+    Users.find({'email':email},async (err,result)=>{
         if(result.length)
         {
             if(bcrypt.compareSync(password , result[0].password))

@@ -76,7 +76,7 @@ const reject = async (req,res)=>{
     }
 }
 
-
+/*
 function bookRoom(id){
     return new Promise(async(resolve,reject)=>{
         let student = await Users.findById(id);
@@ -96,7 +96,7 @@ function bookRoom(id){
         });
     });
 }
-
+*/
 module.exports={
     findAllApplocations,
     accept,

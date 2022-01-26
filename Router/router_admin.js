@@ -47,6 +47,8 @@ router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms)
 //Find occupied room
 router.get('/rooms/occupied',FindController.findOccupiedRooms);
 
+//Find all hostels of a College
+router.post('/hostels/all',Middlewares.checkAdmin,FindController.findAllHostel) ;
 
 //Applications
 router.get('/findApplications',ApplicationController.findAllApplocations);

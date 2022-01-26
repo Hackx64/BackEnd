@@ -25,8 +25,7 @@ const hostelRoomSchema= new mongoose.Schema({
     },
     roomno:{
         type:Number,
-        required:true ,
-        unique:true
+        required:true 
     }
 },{
     timestamps:true

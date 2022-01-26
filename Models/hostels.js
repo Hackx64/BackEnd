@@ -19,11 +19,16 @@ const hostelSchema= new mongoose.Schema({
     address:{
         type:String,
         required:true
-    }
-    ,rooms:[{
+    },
+    rooms:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'HostelRooms'
-    }]
+    }],
+    college:{
+        type:String,
+        required:true
+    }
+  
 },{
     timestamps:true
 });
