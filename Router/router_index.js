@@ -8,7 +8,7 @@ const jwt = require ('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const Feedback = require ('../Controller/feedback');
-
+const BookGuestHouse = require ('../Controller/book_guest_house');
 const router=express.Router();
 
 router.get('/',(req,res)=>{
@@ -51,5 +51,11 @@ router.post('/pay', (req, res) => {
 router.post ('/feedback', (req, res) => {
     Feedback.feedbackService(req, res);
 })
+
+//to book a guest house
+router.post ('/getGuestHouse', (req, res) => {
+    BookGuestHouse.getGuestHouse (res, res);
+})
+
 
 module.exports=router;

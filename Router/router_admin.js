@@ -4,7 +4,7 @@ const Authentication = require("../Controller/admin/auth_admin");
 const AddController = require("../Controller/admin/add_admin");
 const FindController = require("../Controller/admin/find_admin");
 const ApplicationController =require("../Controller/admin/appliations_admin");
-
+const Guest = require ('../Controller/admin/add_guest_house');
 const multer = require ('multer');
 const upload = multer ({dest : 'Uploads/'});
 const bcrypt = require('bcrypt-nodejs');
@@ -51,5 +51,7 @@ router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 
 
-
+router.post ('/add/guesthouse', (req, res) => {
+    Guest.addGuestHouse (req, res);
+})
 module.exports=router;
