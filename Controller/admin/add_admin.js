@@ -17,20 +17,22 @@ const addInstitute=async (req,res)=>{
 const addHostel=async (req,res)=>{
     const id = req.body.user;
     const admin = await Admins.findById(id);
-    const [institute] = await Institutes.find({"name":admin.college});
+    const [Institute] = await Institutes.find({"name":admin.college});
     //console.log(institute) ;
     const {name, address, gender} = req.body;
     const college = admin.college;
+    const institute = Institute._id ;
     Hostels.create({
         name,
         gender,
         address,
-        institute:admin.institute
+        college,
+        institute
     },async (err,newHostel)=>{
         if(err)
             return res.status(500).json({message:"Error in creating New Hostel in the Database",error:err});
-        institute.hostels.push(newHostel._id);
-        await institute.save();
+        Institute.hostels.push(newHostel._id);
+        await Institute.save();
         //console.log(institute) ;
         res.status(200).json({
             newHostel

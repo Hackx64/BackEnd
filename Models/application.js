@@ -17,6 +17,10 @@ const schema = new mongoose.Schema ({
         type : String,
         enum: ["AC", "RJ", null],
         default : null
+    },
+    institute:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Institutes'
     }
 })
 const Application = mongoose.model ('application', schema);
