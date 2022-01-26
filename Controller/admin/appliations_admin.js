@@ -2,7 +2,7 @@ const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
 const Applications = require("../../Models/application");
 const Users = require("../../Models/users");
-const {transporter,acceptMail,rejectMail}=require("../Utils/nodemailer");
+const {transporter,acceptMail,rejectMail}=require("../../Utils/nodemailer");
 
 const findAllApplocations = async (req,res)=>{
     try {
@@ -66,7 +66,7 @@ const reject = async (req,res)=>{
     }
 }
 
-
+/*
 function bookRoom(id){
     let student = await Users.findById(id);
     let year = student.year;
@@ -77,7 +77,7 @@ function bookRoom(id){
         room_size=1;
     
 }
-
+*/
 module.exports={
     findAllApplocations,
     accept,

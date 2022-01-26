@@ -5,10 +5,6 @@ const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
     Users.find ({'email' : email}, (err, result) => {
         if (result.length) {
-<<<<<<< HEAD
-            Application.findOne ({'email' : email}, (err, result_application) => {
-                if (result_application.length) {
-=======
             new Application ({
                 id:result.id,
                 email:student_email,
@@ -16,7 +12,6 @@ const sendApplication = (req, res) => {
             }).save ((err, res) => {
                 if (err) {
                     console.log (err);
->>>>>>> 3ecfeb9d697120066279f09b3973e3b3be3d7b16
                     res.status (400).json ({message : "Bad Request"});
                 }
                 else {
