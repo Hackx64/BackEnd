@@ -26,9 +26,14 @@ const accept = async (req,res)=>{
         await application.save();
         const mail = acceptMail(email);
         bookRoom(application.student_id)
-        .then((rooms)=>{
+        .then((hostels)=>{
+            let room=null;
+            hostels.forEach(h => {
+                if(h.rooms.length)
+                    room=h.rooms[0].id;
+            });
+            console.log(room);
             res.status(200).json({msg:"Application accepted!",rooms});
-            console.log(rooms);
             let info = transporter.sendMail (mail, (error, info) => {
                 if(error) {
                     console.log (error);
@@ -75,6 +80,7 @@ const reject = async (req,res)=>{
 function bookRoom(id){
     return new Promise(async(resolve,reject)=>{
         let student = await Users.findById(id);
+        console.log(student);
         let year = student.year;
         let room_size=null;
         if(year===1)room_size=3;

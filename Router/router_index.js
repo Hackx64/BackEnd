@@ -2,12 +2,16 @@ const Register = require('../Controller/register');
 const Login = require('../Controller/login');
 const Payment = require('../Controller/payment');
 const Application = require ('../Controller/hostel_application');
+const GetData = require('../Controller/get_data');
+
 const express=require("express");
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require ('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const Feedback = require ('../Controller/feedback');
+
+const Middlewares = require('../Utils/middlewares');
 
 const router=express.Router();
 
@@ -34,22 +38,26 @@ router.get('/verifytoken/:token',(req,res)=>{
 });
 
 //for booking a hostel
-router.post ('/application', (req, res) => {
+router.post ('/application',Middlewares.checkUserAuthentication, (req, res) => {
     Application.sendApplication (req, res);
 })  
 
-router.get ('/getHostel', (req, res) => {
+//Booking hostel
+router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
     Application.getHostel (res, res);    
 })
-//payment
 
-router.post('/pay', (req, res) => {
+//payment
+router.post('/pay', Middlewares.checkUserAuthentication,(req, res) => {
     Payment.makePayment(req,res,stripe);
 });
 
 //feedback service
-router.post ('/feedback', (req, res) => {
+router.post ('/feedback', Middlewares.checkUserAuthentication,(req, res) => {
     Feedback.feedbackService(req, res);
-})
+});
+
+//canteen
+router.get('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
 
 module.exports=router;

@@ -36,6 +36,9 @@ router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 //Add Room
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 
+//Add Canteen
+router.post('/add/canteen',Middlewares.checkAdmin,AddController.addCanteen);
+
 //Find Rooms
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
