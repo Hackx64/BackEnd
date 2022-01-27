@@ -31,10 +31,10 @@ const verify = async (req,res,bcrypt,jwt)=>{
         return res.json(400,{message:"No token given."});
     jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decodedToken)=>{
         if(err){
-            res.status(403).json("Session timed out , Pls try again") ;
-            return;
+        return  res.status(403).json("Session timed out , Pls try again") ;
+
         }
-        const {name, email, college, password, phone, gender} = decodedToken;
+        const {name, email, college, password, phone} = decodedToken;
         const doesUserExit=await Users.exists({email:email});
         const [cllg] = await Institutes.find({"name":college}) ;
         const institute = cllg._id ;
@@ -47,20 +47,24 @@ const verify = async (req,res,bcrypt,jwt)=>{
             email,
             password:hash,
             phone,
-            institute,
-            gender
+            institute
         }).save((err,result)=>{
             if(err){
                 console.log(err);
-                res.status(500).json({message:"Error in creating new user in Database."});
+                return res.status(500).json({message:"Error in creating new user in Database."});
             }
             return res.status(200).json("You are registered, login to our app") ;
         });
     })
 }
-
+const update = async (req,res)=>{
+    const {user,roll,department,gender} = req.body ;
+    await Users.findOneAndUpdate({id:user},{roll:roll , gender:gender , department:department});
+    return res.json("Profile Succesfully Updated !!!") ;
+}
 
 module.exports = {
     register,
-    verify
+    verify,
+    update
 }

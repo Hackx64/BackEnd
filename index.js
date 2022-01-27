@@ -7,9 +7,8 @@ const cors = require('cors');
 const nodemailer=require("./Utils/nodemailer");
 
 
-app.use(express.urlencoded({extended:true}));
-
 //Starting middleware
+app.use(express.urlencoded({extended:true}));
 app.use(express.json()) ;
 app.use(cors()) ;
 app.use('/',require('./Router/router_index'));

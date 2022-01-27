@@ -4,6 +4,7 @@ const Authentication = require("../Controller/admin/auth_admin");
 const AddController = require("../Controller/admin/add_admin");
 const FindController = require("../Controller/admin/find_admin");
 const ApplicationController =require("../Controller/admin/appliations_admin");
+const QueryController = require("../Controller/admin/query_admin");
 const Guest = require ('../Controller/admin/add_guest_house');
 const multer = require ('multer');
 const upload = multer ({dest : 'Uploads/'});
@@ -11,8 +12,6 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt=require("jsonwebtoken");
 const Middlewares = require('../Utils/middlewares'); 
 
-
-router.use(Middlewares.extractFromToken);
 
 router.post('/register',upload.single ('file'), (req,res)=>{
     Authentication.register(req,res,bcrypt);
@@ -37,7 +36,7 @@ router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 
 //Add Canteen
-router.post('/add/canteen',Middlewares.checkAdmin,AddController.addCanteen);
+router.post('/add/canteen',AddController.addCanteen);
 
 //Find Rooms
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
@@ -58,5 +57,10 @@ router.get('/application/reject',ApplicationController.reject);
 
 router.post ('/add/guesthouse', (req, res) => {
     Guest.addGuestHouse (req, res);
-})
+});
+
+
+//queries
+router.get('/findQueries',Middlewares.checkAdmin,QueryController.getAllFeedbacks);
+router.post('/query/:query_id',Middlewares.checkAdmin,QueryController.sendQueryReply);
 module.exports=router;

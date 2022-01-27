@@ -7,7 +7,7 @@ const sendApplication = (req, res) => {
     Users.findOne({'email' : email}, async (err, result) => {
         if (result) {
             const flag = await Application.exists({student_email:email,$or:[{status:'AC'},{status:null}]});
-            if(flag)return res.status(400).json("You have already applied or you might already have a hostel.");
+            if(flag)return res.status(400).json("You have already applied or you already have a hostel.");
             new Application ({
                 student_id:result.id,
                 student_email:email,
@@ -26,7 +26,7 @@ const sendApplication = (req, res) => {
         else {
             console.log ("User with the email doesn't exist");
         }
-    })
+    });
 }
 
 const getHostel = (req, res) => {
@@ -38,10 +38,20 @@ const getHostel = (req, res) => {
             const hostel = result.hostel;
             res.status (200).json (hostel);
         }
-    })
+    });
 }
-
+const getApplication = async(req,res)=>{
+    const {email} = req.body ;
+    const application = await Application.find({"student_email":email}) ;
+    if(application.length){
+        if(application[0].status == null) res.status(200).json({"status":"Pending"}) ;
+        else if(application[0].status == "AC") res.status(200).json({"status":"Accepted"}) ; 
+        else res.status(200).json({"status":"Rejected"}) ; 
+    }
+    else res.status(200).json({"status":"Not Applied"}) ; 
+}
 module.exports = {
     sendApplication,
-    getHostel
+    getHostel,
+    getApplication
 }
