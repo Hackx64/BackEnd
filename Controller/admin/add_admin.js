@@ -16,7 +16,7 @@ const addInstitute=async (req,res)=>{
 } 
 
 const addHostel=async (req,res)=>{
-    const id = req.body.user;
+    const {id} = req.body.user;
     const admin = await Admins.findById(id);
     const [Institute] = await Institutes.find({"name":admin.college});
     //console.log(institute) ;
@@ -44,13 +44,11 @@ const addHostel=async (req,res)=>{
 const addRoom= async(req,res)=>{
     try {
         const {hostelname,roomno,fees,roomType} = req.body;
-        console.log(req.body) ;
         //console.log('reached') ;
         const [hostel] = await Hostels.find({"name":hostelname}) ;
         
         const hostelId = hostel._id ;
         const Room = await Rooms.find({"hostelId":hostelId , "roomno":roomno}) ;
-        //console.log(Room)
         if(Room.length > 0) return res.status(200).json("Room with same room number already exists in the hostel") ;
         const room  = await Rooms.create({
             roomType ,
@@ -58,7 +56,7 @@ const addRoom= async(req,res)=>{
             fees ,
             roomno ,
         });     
-        console.log(Room) ;
+        //console.log(Room) ;
         hostel.rooms.push(room._id);
         //console.log(room._id) ;
         await hostel.save();

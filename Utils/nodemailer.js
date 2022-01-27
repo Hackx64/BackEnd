@@ -37,8 +37,7 @@ function acceptMail(email){
         from : 'hosteer177@gmail.com',
         to:email,
         subject: "Hostel Status",
-        text : "Your application for a hostel has been accepted!",
-        html : `
+        html : `<h4>Your application for a hostel has been accepted!</h4>
         <h2>Please visit our website to see room details</h2>
         <a href="${CLIENT_URL}">Click Here visit</a>
         `
@@ -52,8 +51,7 @@ function rejectMail(email){
         from : 'hosteer177@gmail.com',
         to:email,
         subject: "Hostel Status",
-        text : "Your application for a hostel HAS NOT been accepted",
-        html : `
+        html : `<h4>Your application for a hostel has NOT been accepted.</h4>
         <h2>Please visit our website to apply again with updated credentials</h2>
         <a href="${CLIENT_URL}">Click Here visit</a>
         `
