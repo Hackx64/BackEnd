@@ -20,7 +20,6 @@ const schema = new mongoose.Schema({
         gender:{
             type:String,
             enum:["Boys","Girls"],
-            required:true
         },
         roll:{
             type:String,

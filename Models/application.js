@@ -22,6 +22,8 @@ const schema = new mongoose.Schema ({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Institutes'
     }
+},{
+    timestamps:true
 })
 const Application = mongoose.model ('application', schema);
 module.exports=Application;
