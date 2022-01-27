@@ -16,6 +16,10 @@ const canteenSchema = new mongoose.Schema({
     end:{
         type:String,
         required:true
+    },
+    phone:{
+        type:String,
+        required:true  
     }
 },{
     timestamps:true

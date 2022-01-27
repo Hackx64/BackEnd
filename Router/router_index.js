@@ -14,7 +14,7 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const Middlewares = require('../Utils/middlewares');
 
 const router=express.Router();
-router.use(Middlewares.extractFromToken);
+//router.use(Middlewares.extractFromToken);
 
 router.get('/',(req,res)=>{
     res.status(200).json({message:"Success"});
