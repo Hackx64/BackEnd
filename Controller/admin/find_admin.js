@@ -8,7 +8,7 @@ const Users = require("../../Models/users");
 
 const findAllRooms = async (req,res)=>{
     try {
-        const {id} = req.user;
+        const {id} = req.body.user;
         let rooms=0;
         const admin = await Admins.findById(id,{institute:1});
         Institutes.findById(admin.institute).populate({path:'hostels',select:'rooms'}).exec((err,institute)=>{
@@ -66,8 +66,9 @@ const findOccupiedRooms = async (req,res)=>{
 }
 const findAllHostel = async (req,res)=>{
     try{
-      console.log(req.body.institute) ;
-      const hostels = await Hostels.find({"college":req.body.institute}) ;
+      const {institute} = req.body.user ;
+      console.log(institute) ;
+      const hostels = await Hostels.find({"institute":institute}) ;
       res.status(200).json(hostels) ;
     }
     catch (error) {

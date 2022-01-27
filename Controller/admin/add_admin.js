@@ -16,7 +16,7 @@ const addInstitute=async (req,res)=>{
 } 
 
 const addHostel=async (req,res)=>{
-    const id = req.body.user;
+    const id = req.body.user.id;
     const admin = await Admins.findById(id);
     const [Institute] = await Institutes.find({"name":admin.college});
     //console.log(institute) ;
