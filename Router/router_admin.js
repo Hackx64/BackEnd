@@ -4,7 +4,7 @@ const Authentication = require("../Controller/admin/auth_admin");
 const AddController = require("../Controller/admin/add_admin");
 const FindController = require("../Controller/admin/find_admin");
 const ApplicationController =require("../Controller/admin/appliations_admin");
-
+const Guest = require ('../Controller/admin/add_guest_house');
 const multer = require ('multer');
 const upload = multer ({dest : 'Uploads/'});
 const bcrypt = require('bcrypt-nodejs');
@@ -36,6 +36,9 @@ router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
 //Add Room
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 
+//Add Canteen
+router.post('/add/canteen',Middlewares.checkAdmin,AddController.addCanteen);
+
 //Find Rooms
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
@@ -53,5 +56,7 @@ router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 
 
-
+router.post ('/add/guesthouse', (req, res) => {
+    Guest.addGuestHouse (req, res);
+})
 module.exports=router;

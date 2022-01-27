@@ -2,23 +2,16 @@ const jwt=require("jsonwebtoken");
 const Admins=require("../Models/admins");
 
 const extractFromToken = (req,res,next)=>{
-    const token=req.body.token;
-    if(token){
-        jwt.verify(token,process.env.JWT_SECRET_KEY,(err,decodedToken)=>{
-            if(err)
-                return res.status(403).json("Token Invalid/Expired");
-            req.user=decodedToken;
-            next();
-        });
-    }else
-        next();
+    if(req.body.user)
+        req.user=req.body.user;
+    next();
 }  
 
 const checkAdmin = async (req,res,next)=>{
     //console.log(req.user) ;
     if(!req.body.user)
         return res.status(401).json("You are not authenticated.");
-    const id = req.body.user;
+    const id = req.body.user.id;
     const flag = await Admins.exists({id:id}); 
     if(flag)
         next();
@@ -27,7 +20,7 @@ const checkAdmin = async (req,res,next)=>{
 }
 
 const checkUserAuthentication = (req,res,next)=>{
-    if(!req.user)
+    if(!req.body.user)
         return res.status(401).json("You are not authenticated.");
     next();
 }
@@ -35,5 +28,6 @@ const checkUserAuthentication = (req,res,next)=>{
 
 module.exports={
     checkAdmin,
-    extractFromToken
+    extractFromToken,
+    checkUserAuthentication
 }

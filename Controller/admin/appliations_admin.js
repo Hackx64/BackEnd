@@ -26,11 +26,30 @@ const accept = async (req,res)=>{
         application.status = "AC";
         const email = application.student_email;
         await application.save();
+
         const mail = acceptMail(email);
+
         bookRoom(application.student_id)
-        .then((rooms)=>{
-            res.status(200).json({msg:"Application accepted!",rooms});
-            console.log(rooms);
+        .then(async (hostels)=>{
+            let room_id=null;
+            hostels.forEach(h => {
+                if(h.rooms.length)
+                    room_id=h.rooms[0].id;
+            });
+
+            if(!room_id)return res.status(200).json("No rooms available currently");
+
+            let id = application.student_id;
+            let student = await Users.findById(id);
+            let room = await Rooms.findById(room_id);
+            student.room=room_id;
+            await student.save();
+            room.residents.push(id);
+            if(room.residents.length==room.roomType)
+                room.full=true;
+            await room.save();
+            
+            res.status(200).json({msg:"Application accepted!",room});
             let info = transporter.sendMail (mail, (error, info) => {
                 if(error) {
                     console.log (error);
@@ -73,7 +92,7 @@ const reject = async (req,res)=>{
     }
 }
 
-/*
+
 function bookRoom(id){
     return new Promise(async(resolve,reject)=>{
         let student = await Users.findById(id);
@@ -85,14 +104,13 @@ function bookRoom(id){
             room_size=1;
         let gender = student.gender;
         Hostels.find({gender:gender}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
-            //console.log(err);
             if(err)
                 return reject(err);
             resolve(res);
         });
     });
 }
-*/
+
 module.exports={
     findAllApplocations,
     accept,

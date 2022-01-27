@@ -3,8 +3,7 @@ const Users = require("../Models/users");
 const {transporter,verificationMailGen}=require("../Utils/nodemailer");
 
 const register = (req,res,nodemailer,jwt)=>{
-    const { email,name,password,phone,college } = req.body ;
-    console.log(req.body) ;
+    const { email,name,password,phone,college} = req.body ;
     if(!email || !name || !password || !phone || !college){
         return res.status(400).json('Pls Enter the credentials properly') ;
     }
@@ -35,7 +34,7 @@ const verify = async (req,res,bcrypt,jwt)=>{
             res.status(403).json("Session timed out , Pls try again") ;
             return;
         }
-        const {name, email, college, password, phone} = decodedToken;
+        const {name, email, college, password, phone, gender} = decodedToken;
         const doesUserExit=await Users.exists({email:email});
         const [cllg] = await Institutes.find({"name":college}) ;
         const institute = cllg._id ;
@@ -43,13 +42,13 @@ const verify = async (req,res,bcrypt,jwt)=>{
             return res.status(200).json('You are already registered , Pls go and login') ;
 
         const hash = bcrypt.hashSync(password) ;
-        console.log(name,email,password,phone,institute)
         new Users({
             name,
             email,
             password:hash,
             phone,
-            institute
+            institute,
+            gender
         }).save((err,result)=>{
             if(err){
                 console.log(err);
