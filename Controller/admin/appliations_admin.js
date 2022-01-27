@@ -42,20 +42,18 @@ const accept = async (req,res)=>{
             let id = application.student_id;
             let student = await Users.findById(id);
             let room = await Rooms.findById(room_id);
-
-            if(student.room){
-                let curr_room = await Rooms.findById(student.room);
-                curr_room.pull(id);
+            if(student.hostel){
+                let curr_room = await Rooms.findById(student.hostel);
+                curr_room.residents.pull(id);
                 curr_room.full=false;
                 await curr_room.save();
             }
-            student.room=room_id;
-            await student.save();
+            student.hostel=room_id;
             room.residents.push(id);
             if(room.residents.length==room.roomType)
                 room.full=true;
             await room.save();
-            
+            await student.save();
             
             res.status(200).json({msg:"Application accepted!",room});
             let info = transporter.sendMail (mail, (error, info) => {
@@ -68,7 +66,10 @@ const accept = async (req,res)=>{
                 }
             });
         })
-        .catch((err)=>res.status(500).json({msg:"Failed to book hostel room",err}));
+        .catch((err)=>{
+            console.log(err);
+            res.status(500).json({msg:"Failed to book hostel room",err})
+        });
     } catch (error) {
         res.status(500).json({msg:"Failed to save application to Db",error});
     }
@@ -111,7 +112,7 @@ function bookRoom(id){
         else
             room_size=1;
         let gender = student.gender;
-        Hostels.find({gender:gender}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
+        Hostels.find({gender:'Boys'}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
             if(err)
                 return reject(err);
             resolve(res);

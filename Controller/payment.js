@@ -1,10 +1,26 @@
 const { db } = require("../Models/admins");
+const Applications = require('../Models/application');
+
+const findAmount = (stu_id)=>{
+    return new Promise((resolve,reject)=>{
+        Applications.find({student_id:stu_id,status:null}).exec((err,res)=>{
+            if(err)return reject(err);
+            res.length&&resolve(res[0]);
+        });
+    });
+}
 
 const makePayment = (req,res, stripe)=>{
     
     const {amount, stripeToken} = req.body;
+    findAmount(req.user.id)
+    .then((res)=>{
+        
+    })
+    .catch((err)=>console.log(err));
     if (!amount || !stripeToken)
         return res.status(400).json("Bad Request Credential for Token/Amount"); 
+    return;
     try {
         stripe.charges.create({
             amount:amount*100,
