@@ -68,18 +68,19 @@ const addRoom= async(req,res)=>{
     }
 }
 
-const addCanteen = async(req,res)=>{
-    const {name,start,end} = req.body;
-    const admin = req.user;
+const addCanteen = (req,res)=>{
+    const {name,start,end,phone} = req.body;
+    const admin = req.body.user;
     const institute = admin.institute;
     Canteens.create({
         name,
         start,
         end,
-        institute
+        institute,
+        phone
     },(err,canteen)=>{
         if(err)return res.status(400).json({msg:"Not required details to create Canteen.",err});
-        res.status(200).json(canteen);
+        res.status(200).json("Canteen Added Succesfully !!!");
     });
 }
 

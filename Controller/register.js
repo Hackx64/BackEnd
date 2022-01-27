@@ -57,10 +57,13 @@ const verify = async (req,res,bcrypt,jwt)=>{
         });
     })
 }
-const update = async (req,res)=>{
+const update = (req,res)=>{
+    //console.log(req.body) ;
     const {user,roll,department,gender} = req.body ;
-    await Users.findOneAndUpdate({id:user},{roll:roll , gender:gender , department:department});
-    return res.json("Profile Succesfully Updated !!!") ;
+    Users.findOneAndUpdate({'_id':user},{$set :{roll:roll , gender:gender , department:department}},(err,ress)=>{
+        if(err) return res.status(400).json(err) ;
+        return res.status(200).json("Profile Succesfully Updated !!!") ;
+    });
 }
 
 module.exports = {
