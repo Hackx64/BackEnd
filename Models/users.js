@@ -19,13 +19,13 @@ const schema = new mongoose.Schema({
         },
         gender:{
             type:String,
-            enum:["Boys","Girls"],
-            required:true
+            enum:["Boys","Girls"]
         },
         roll:{
             type:String,
             default:"Not Given"
         },
+        address: String,
         year:{
             type:Number
         },
