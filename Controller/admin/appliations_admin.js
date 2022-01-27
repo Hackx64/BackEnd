@@ -42,12 +42,20 @@ const accept = async (req,res)=>{
             let id = application.student_id;
             let student = await Users.findById(id);
             let room = await Rooms.findById(room_id);
+
+            if(student.room){
+                let curr_room = await Rooms.findById(student.room);
+                curr_room.pull(id);
+                curr_room.full=false;
+                await curr_room.save();
+            }
             student.room=room_id;
             await student.save();
             room.residents.push(id);
             if(room.residents.length==room.roomType)
                 room.full=true;
             await room.save();
+            
             
             res.status(200).json({msg:"Application accepted!",room});
             let info = transporter.sendMail (mail, (error, info) => {

@@ -61,9 +61,26 @@ function rejectMail(email){
     return mail;
 }
 
+function queryReply(email,query,content){
+    const CLIENT_URL=process.env.CLIENT_URL;
+    let mail = {
+        from : 'hosteer177@gmail.com',
+        to:email,
+        subject: "Query Update",
+        html : `In response to your query: <h4>${query}</h4>
+        <h2>${content}</h2>
+        <h6>Link to our Website</h6>
+        <a href="${CLIENT_URL}">Click Here visit</a>
+        `
+    }
+    return mail;
+}
+
+
 module.exports={
     transporter,
     verificationMailGen,
     acceptMail,
-    rejectMail
+    rejectMail,
+    queryReply
 }
