@@ -13,7 +13,11 @@ const findAmount = (stu_id)=>{
 const makePayment = (req,res, stripe)=>{
     
     const {amount, stripeToken} = req.body;
-    findAmount(req.user.id).then((res)=>console.log(res)).catch((err)=>console.log(err));
+    findAmount(req.user.id)
+    .then((res)=>{
+        
+    })
+    .catch((err)=>console.log(err));
     if (!amount || !stripeToken)
         return res.status(400).json("Bad Request Credential for Token/Amount"); 
     return;

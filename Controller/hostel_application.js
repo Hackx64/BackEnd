@@ -39,8 +39,18 @@ const getHostel = (req, res) => {
         }
     });
 }
-
+const getApplication = async(req,res)=>{
+    const {email} = req.body ;
+    const application = await Application.find({"student_email":email}) ;
+    if(application.length){
+        if(application[0].status == null) res.status(200).json({"status":"Pending"}) ;
+        else if(application[0].status == "AC") res.status(200).json({"status":"Accepted"}) ; 
+        else res.status(200).json({"status":"Rejected"}) ; 
+    }
+    else res.status(200).json({"status":"Not Applied"}) ; 
+}
 module.exports = {
     sendApplication,
-    getHostel
+    getHostel,
+    getApplication
 }

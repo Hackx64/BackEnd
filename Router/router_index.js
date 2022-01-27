@@ -65,6 +65,12 @@ router.get('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
 router.post ('/getGuestHouse', (req, res) => {
     BookGuestHouse.getGuestHouse (req, res);
 })
+// For completing profile
+router.post('/update/user',(req,res)=>{Register.update(req,res)}) ;
 
+//For fetching application status
+router.post('/application/status/user',Middlewares.checkUserAuthentication , (req,res)=>{
+  Application.getApplication(req,res) ;
+})
 
 module.exports=router;
