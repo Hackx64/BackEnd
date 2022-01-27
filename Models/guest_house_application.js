@@ -21,6 +21,10 @@ const schema = mongoose.Schema ({
     departure_date : {
         type : Date,
         required : true
+    },
+    per_day_charge : {
+        type : Number,
+        required : true
     }
 })
 

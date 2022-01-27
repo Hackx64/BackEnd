@@ -16,9 +16,9 @@ const schema = mongoose.Schema ({
         type : String,
         required : true
     },
-    per_day_charge:{
-        type:Number,
-        required:true
+    per_day_charge : {
+        type : Number,
+        required : true
     }
 })
 const Guest = mongoose.model ('Guest', schema);
