@@ -3,7 +3,7 @@ const Users = require("../Models/users");
 const {transporter,verificationMailGen}=require("../Utils/nodemailer");
 
 const register = (req,res,nodemailer,jwt)=>{
-    const { email,name,password,phone,college,gender } = req.body ;
+    const { email,name,password,phone,college} = req.body ;
     if(!email || !name || !password || !phone || !college){
         return res.status(400).json('Pls Enter the credentials properly') ;
     }
@@ -11,7 +11,7 @@ const register = (req,res,nodemailer,jwt)=>{
         if(result.length){
             return res.status(200).json("User with same mail already exists !") ;
         }
-        const token = jwt.sign ({name, email, college, password, phone, gender}, process.env.JWT_SECRET_KEY, {expiresIn : '20m'});
+        const token = jwt.sign ({name, email, college, password, phone}, process.env.JWT_SECRET_KEY, {expiresIn : '20m'});
             
         let verificationMail=verificationMailGen(token,email);
         let info = transporter.sendMail (verificationMail, (error, info) => {

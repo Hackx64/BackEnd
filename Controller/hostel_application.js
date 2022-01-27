@@ -3,6 +3,7 @@ const Users = require ('../Models/users');
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
+    console.log(email) ;
     Users.findOne({'email' : email}, async (err, result) => {
         if (result) {
             const flag = await Application.exists({student_email:email,$or:[{status:'AC'},{status:null}]});

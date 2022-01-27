@@ -3,10 +3,12 @@ const Rooms = require("../../Models/hostel_rooms");
 const Applications = require("../../Models/application");
 const Users = require("../../Models/users");
 const {transporter,acceptMail,rejectMail}=require("../../Utils/nodemailer");
+const Admins = require("../../Models/admins");
 
 const findAllApplocations = async (req,res)=>{
     try {
-        const applications = await Applications.find({}).populate({path:'student_id',select:'name email phone'});
+        const [admin] = await Admins.findbyId(req.body.id) ;
+        const applications = await Applications.find({"institute":admin.institute}).populate({path:'student_id',select:'name email phone'});
         res.status(200).json(applications);
     } catch (error) {
         res.status(500).json({message:"Error while fetching from Database",error});

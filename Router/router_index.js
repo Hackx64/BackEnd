@@ -63,7 +63,7 @@ router.get('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
 
 //to book a guest house
 router.post ('/getGuestHouse', (req, res) => {
-    BookGuestHouse.getGuestHouse (res, res);
+    BookGuestHouse.getGuestHouse (req, res);
 })
 
 
