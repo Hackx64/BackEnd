@@ -6,7 +6,7 @@ const schema = mongoose.Schema ({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Users'
     },
-    guest_house_name : {
+    guest_house_details : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Guest'
     },
