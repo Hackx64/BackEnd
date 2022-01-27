@@ -1,16 +1,17 @@
-const Feedback = require ('../Models/feedback');
+const Queries = require ('../Models/queries');
 const Users = require('../Models/users');
 
-const feedbackService = (req, res) => {
-    const {email, feedback} = req.body;
+const queryService = (req, res) => {
+    const {email, query} = req.body;
     Users.find ({'email' : email}, (err, result) => {
         if (result.length) {
-            new Feedback ({
+            new Queries ({
+                institute:result.institute,
                 email, 
-                feedback
+                query
             }).save ((err, result) => {
                 if (result) {
-                    res.status (200).json ({message : "Thank you for submitting feedback"});
+                    res.status (200).json ({message : "Thank you for submitting your query"});
                 }else {
                     res.status(400).json ({message : "Bad Request"});
                 }
@@ -19,7 +20,9 @@ const feedbackService = (req, res) => {
         else {  
             console.log ("User with the email doesn't exist");
         }
-    })
+    });
 }
 
-module.exports = feedbackService;
+module.exports = {
+    queryService
+}
