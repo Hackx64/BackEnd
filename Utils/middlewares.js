@@ -31,6 +31,7 @@ const checkAdmin = async (req,res,next)=>{
 const checkUserAuthentication = (req,res,next)=>{
     if(!req.body.user)
         return res.status(401).json("You are not authenticated.");
+    //console.log(req.body.user) ;
     next();
 }
 
