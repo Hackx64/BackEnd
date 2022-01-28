@@ -49,6 +49,7 @@ router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
 })
 
 //payment
+router.get('/pay/detail',Middlewares.checkUserAuthentication,Payment.findPaymentAmount);
 router.post('/pay', Middlewares.checkUserAuthentication,(req, res) => {
     Payment.makePayment(req,res,stripe);
 });
@@ -61,10 +62,14 @@ router.post ('/query', Middlewares.checkUserAuthentication,(req, res) => {
 //canteen
 router.get('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
 
+//Address of hostel
+router.get('/hostel/address',GetData.findPositionLink);
+
 //to book a guest house
 router.post ('/getGuestHouse', (req, res) => {
     BookGuestHouse.getGuestHouse (req, res);
-})
+});
+
 // For completing profile
 router.post('/update/user',(req,res)=>{Register.update(req,res)}) ;
 

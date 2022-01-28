@@ -1,26 +1,35 @@
 const { db } = require("../Models/admins");
 const Applications = require('../Models/application');
+const Users = require("../Models/users");
+const Rooms = require("../Models/hostel_rooms");
+const oneDay = 24*60*60*1000;
 
 const findAmount = (stu_id)=>{
-    return new Promise((resolve,reject)=>{
+    return new Promise(async (resolve,reject)=>{
+        const student = await Users.findById(stu_id);
+        if(student.last_payment)return resolve(student.last_payment,student.hostel);
         Applications.find({student_id:stu_id,status:null}).exec((err,res)=>{
             if(err)return reject(err);
-            res.length&&resolve(res[0]);
+            return resolve({date:res[0].createdAt,room_id:student.hostel});
         });
     });
 }
-
+const findPaymentAmount = (req,res)=>{
+    findAmount(req.user.id)
+    .then(async (res)=>{
+        const room = await Rooms.findById(res.room_id);
+        const amount = Math.ceil(Math.abs (new Date() - new Date(res.date)) / oneDay) * room.fees;
+        res.status(200).json(amount);
+    })
+    .catch((err)=>{
+        console.log({msg:"Failed to fetch amount",err});
+    });
+}
 const makePayment = (req,res, stripe)=>{
     
     const {amount, stripeToken} = req.body;
-    findAmount(req.user.id)
-    .then((res)=>{
-        
-    })
-    .catch((err)=>console.log(err));
     if (!amount || !stripeToken)
         return res.status(400).json("Bad Request Credential for Token/Amount"); 
-    return;
     try {
         stripe.charges.create({
             amount:amount*100,
@@ -56,5 +65,6 @@ const makePayment = (req,res, stripe)=>{
 
 
 module.exports={
-    makePayment
+    makePayment,
+    findPaymentAmount
 }
