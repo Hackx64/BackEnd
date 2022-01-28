@@ -31,6 +31,8 @@ const findPaymentAmount = (req,res)=>{
 }
 const makePayment = async(req,res, stripe)=>{
     const {amount, stripeToken} = req.body;
+    const {id} = req.body.user;
+    const student = await Users.findById(id);
     if (!amount || !stripeToken)
         return res.status(400).json("Bad Request Credential for Token/Amount"); 
     try {
