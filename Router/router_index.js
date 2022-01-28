@@ -52,7 +52,7 @@ router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
 })
 
 //payment
-router.get('/pay/detail',Middlewares.checkUserAuthentication,Payment.findPaymentAmount);
+router.post('/pay/detail',Middlewares.checkUserAuthentication,Payment.findPaymentAmount);
 router.post('/pay', Middlewares.checkUserAuthentication,(req, res) => {
     Payment.makePayment(req,res,stripe);
 });

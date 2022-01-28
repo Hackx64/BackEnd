@@ -6,7 +6,7 @@ const queryService = (req, res) => {
     Users.find({'email' : email}, (err, result) => {
         if (result.length) {
             new Queries ({
-                institute:result.institute,
+                institute:result[0].institute,
                 email, 
                 subject,
                 message

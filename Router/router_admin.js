@@ -63,6 +63,6 @@ router.post('/application/reject',ApplicationController.reject);
 
 
 //queries
-router.get('/findQueries',Middlewares.checkAdmin,QueryController.getAllFeedbacks);
+router.post('/findQueries',Middlewares.checkAdmin,QueryController.getAllFeedbacks);
 router.post('/query/:query_id',Middlewares.checkAdmin,QueryController.sendQueryReply);
 module.exports=router;
