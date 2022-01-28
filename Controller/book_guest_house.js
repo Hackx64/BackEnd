@@ -3,7 +3,7 @@ const Guest = require ('../Models/guest_house');
 const oneDay = 1000 * 60 * 60 * 24;
 
 const getGuestHouse = (req, res) => {
-    Guest.find ({room_numbers : {$exists : true, $not : {$size : 0}}}, (err, result) => {
+    Guest.find ({room_numbers : {$exists : true, $not : {$size : 0}}, institute : {$eq : req.body.user.institute}}, (err, result) => {
             if (result.length > 0) {
                 guest_house_details = result[0];
                 const user_details = req.body.user.id;

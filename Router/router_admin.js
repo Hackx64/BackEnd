@@ -38,6 +38,9 @@ router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
 //Add Canteen
 router.post('/add/canteen',AddController.addCanteen);
 
+//Add Guest House
+router.post ('/add/guesthouse', (req, res) => {Guest.addGuestHouse (req, res)});
+
 //Find Rooms
 router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
 router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
@@ -54,10 +57,6 @@ router.get('/findApplications',ApplicationController.findAllApplocations);
 router.get('/application/accept',ApplicationController.accept);
 router.get('/application/reject',ApplicationController.reject);
 
-
-router.post ('/add/guesthouse', (req, res) => {
-    Guest.addGuestHouse (req, res);
-});
 
 
 //queries
