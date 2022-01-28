@@ -5,20 +5,23 @@ const Users = require("../../Models/users");
 const {transporter,acceptMail,rejectMail}=require("../../Utils/nodemailer");
 const Admins = require("../../Models/admins");
 
-const findAllApplocations = async (req,res)=>{
+const findAllApplications = async (req,res)=>{
     try {
-        const [admin] = await Admins.findbyId(req.body.id) ;
-        const applications = await Applications.find({"institute":admin.institute}).populate({path:'student_id',select:'name email phone'});
-        res.status(200).json(applications);
+        console.log(req.body.user)
+        const admin = await Admins.findById(req.body.user.id) ;
+        const applications = await Applications.find({"institute":admin.institute}).populate({path:'student_id',select:'name email phone gender year address'});
+        const result = applications.filter(item => item.status != "AC") ;
+        res.status(200).json(result);
     } catch (error) {
+        //console.log(error) ;
         res.status(500).json({message:"Error while fetching from Database",error});
     }
-
 }
 
 const accept = async (req,res)=>{
     try {
         const {application_id} = req.body;
+        console.log(application_id) ;
         if(!application_id)
             return res.status(400).json("Provide Application id of the application");
         
@@ -71,6 +74,7 @@ const accept = async (req,res)=>{
             res.status(500).json({msg:"Failed to book hostel room",err})
         });
     } catch (error) {
+        console.log(err);
         res.status(500).json({msg:"Failed to save application to Db",error});
     }
 }
@@ -78,6 +82,7 @@ const accept = async (req,res)=>{
 const reject = async (req,res)=>{
     try {
         const {application_id} = req.body;
+        console.log(application_id) ;
         if(!application_id)
             return res.status(400).json("Provide Application id of the application");
         
@@ -121,7 +126,7 @@ function bookRoom(id){
 }
 
 module.exports={
-    findAllApplocations,
+    findAllApplications,
     accept,
     reject
 }

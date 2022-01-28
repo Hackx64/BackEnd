@@ -15,13 +15,14 @@ const schema = new mongoose.Schema ({
     },
     status : { 
         type : String,
-        enum: ["AC", "RJ", null],
+        enum: ["AC", "RJ", null,"RC"],
         default : null
     },
     institute:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Institutes'
-    }
+    },
+    reason: String
 },{
     timestamps:true
 })

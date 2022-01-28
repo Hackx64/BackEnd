@@ -2,13 +2,14 @@ const Queries = require ('../Models/queries');
 const Users = require('../Models/users');
 
 const queryService = (req, res) => {
-    const {email, query} = req.body;
-    Users.find ({'email' : email}, (err, result) => {
+    const {email, message , subject} = req.body;
+    Users.find({'email' : email}, (err, result) => {
         if (result.length) {
             new Queries ({
                 institute:result.institute,
                 email, 
-                query
+                subject,
+                message
             }).save ((err, result) => {
                 if (result) {
                     res.status (200).json ({message : "Thank you for submitting your query"});

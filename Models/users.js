@@ -34,12 +34,8 @@ const schema = new mongoose.Schema({
         image: String ,
         hostel:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Hostels',
+            ref:'HostelRooms',
             default: null
-        },
-        room:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'HotelRooms'
         },
         last_payment:{
             type:Date,

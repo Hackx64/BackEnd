@@ -42,7 +42,10 @@ router.get('/verifytoken/:token',(req,res)=>{
 router.post ('/application',Middlewares.checkUserAuthentication, (req, res) => {
     Application.sendApplication (req, res);
 })  
-
+//For sending a room change application
+router.post ('/roomchange/application',Middlewares.checkUserAuthentication, (req, res) => {
+    Application.roomchangeapplication(req, res);
+})  
 //Booking hostel
 router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
     Application.getHostel (res, res);    
@@ -60,7 +63,7 @@ router.post ('/query', Middlewares.checkUserAuthentication,(req, res) => {
 });
 
 //canteen
-router.get('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
+router.post('/canteens',Middlewares.checkUserAuthentication,GetData.getCanteen);
 
 //Address of hostel
 router.get('/hostel/address',GetData.findPositionLink);

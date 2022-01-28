@@ -9,7 +9,10 @@ const schema = new mongoose.Schema ({
         type : String, 
         required : true
     },
-    query : {
+    subject : {
+        type : String
+    },
+    message : {
         type : String
     }
 })

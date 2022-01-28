@@ -75,7 +75,18 @@ const findAllHostel = async (req,res)=>{
         res.status(500).json({message:"Internal Server Error while fetching ocuupied room",error});
     }
 } 
-
+const findAllOccupied = async (req,res)=>{
+    try {
+        const admin = req.body.user;
+        const institute = admin.institute;
+        const users_with_room = await Users.find({institute:institute,hostel:{$ne:null}})
+        .populate({path:'hostel',select:'roomno fees hostelId',populate:{path:'hostelId',select:'name'}});
+        res.status(200).json(users_with_room);
+    } catch (error) {
+        console.log(error);
+        res.status(400).json("Failed to fetch users");
+    }
+}
 
 
 
@@ -83,5 +94,6 @@ module.exports={
     findAllFreeRooms,
     findAllRooms,
     findOccupiedRooms,
-    findAllHostel
+    findAllHostel,
+    findAllOccupied
 }

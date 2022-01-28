@@ -49,13 +49,16 @@ router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms)
 //Find occupied room
 router.get('/rooms/occupied',FindController.findOccupiedRooms);
 
+//Find all accomodated
+router.post('/occupied/rooms/details',FindController.findAllOccupied) ;
+
 //Find all hostels of a College
 router.post('/hostels/all',Middlewares.checkAdmin,FindController.findAllHostel) ;
 
 //Applications
-router.get('/findApplications',ApplicationController.findAllApplocations);
-router.get('/application/accept',ApplicationController.accept);
-router.get('/application/reject',ApplicationController.reject);
+router.post('/findApplications',ApplicationController.findAllApplications);
+router.post('/application/accept',ApplicationController.accept);
+router.post('/application/reject',ApplicationController.reject);
 
 
 
