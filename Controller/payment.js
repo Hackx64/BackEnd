@@ -25,9 +25,11 @@ const findPaymentAmount = (req,res)=>{
         console.log({msg:"Failed to fetch amount",err});
     });
 }
-const makePayment = (req,res, stripe)=>{
+const makePayment = async (req,res, stripe)=>{
     
     const {amount, stripeToken} = req.body;
+    const {id} = req.body.user;
+    const student = await Users.findById(id);
     if (!amount || !stripeToken)
         return res.status(400).json("Bad Request Credential for Token/Amount"); 
     try {
@@ -46,11 +48,13 @@ const makePayment = (req,res, stripe)=>{
             var value = [[transaction_id, amount, transaction_source, trasaction_description]];
             var sql = 'INSERT INTO Transaction (transaction_id, amount, transaction_source, transaction_description) VALUES ?';
             
-            db.query (sql, [value], (err, res_aws_rds) => {
+            db.query (sql, [value], async (err, res_aws_rds) => {
                 if (err) {
                     console.log ('Upload Failure in AWS RDS Unit');
                 }
                 else {
+                    student.last_payment = new Date();
+                    await student.save();
                     console.log ('Transaction Upload in AWS RDS successful');
                 }
             }) 
