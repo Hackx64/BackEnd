@@ -1,4 +1,5 @@
 const mongoose = require('mongoose') ;
+const { NULL } = require('mysql/lib/protocol/constants/types');
 const schema = new mongoose.Schema({
         name: String,
         email: {
@@ -35,6 +36,10 @@ const schema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:'HostelRooms',
             default: null
+        },
+        last_payment:{
+            type:Date,
+            default:null
         }
     },{
         timestamps:true
