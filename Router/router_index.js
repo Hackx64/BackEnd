@@ -38,18 +38,19 @@ router.get('/verifytoken/:token',(req,res)=>{
     Login.getuser(req,res,jwt)
 });
 
-//for booking a hostel
+//for Booking a hostel
 router.post ('/application',Middlewares.checkUserAuthentication, (req, res) => {
-    Application.sendApplication (req, res);
-})  
+    Application.sendApplication(req, res);
+});
 //For sending a room change application
 router.post ('/roomchange/application',Middlewares.checkUserAuthentication, (req, res) => {
     Application.roomchangeapplication(req, res);
-})  
-//Booking hostel
+}); 
+
+//Getting hostel/room id for a particular student
 router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
     Application.getHostel (res, res);    
-})
+});
 
 //payment
 router.get('/pay/detail',Middlewares.checkUserAuthentication,Payment.findPaymentAmount);
@@ -78,7 +79,7 @@ router.post('/update/user',(req,res)=>{Register.update(req,res)}) ;
 
 //For fetching application status
 router.post('/application/status/user',Middlewares.checkUserAuthentication , (req,res)=>{
-  Application.getApplication(req,res) ;
-})
+  Application.getApplication(req,res);
+});
 
 module.exports=router;
