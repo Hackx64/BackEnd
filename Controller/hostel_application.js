@@ -80,9 +80,16 @@ const roomchangeapplication = async(req,res)=>{
         }
     });
 }
+const checkroomchange = async(req,res)=>{
+   const {email} = req.body.user ;
+   const flag = await Application.exists({student_email:email,status:'RC'});
+   console.log(flag) ;
+   return res.status(200).json(flag) ;
+}
 module.exports = {
     sendApplication,
     getHostel,
     getApplication,
-    roomchangeapplication
+    roomchangeapplication,
+    checkroomchange
 }
