@@ -27,8 +27,10 @@ const hostelSchema= new mongoose.Schema({
     college:{
         type:String,
         required:true
+    },
+    room_overview : {
+        type : String
     }
-  
 },{
     timestamps:true
 });

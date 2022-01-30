@@ -3,6 +3,8 @@ const Admins=require("../../Models/admins");
 const Hostels=require("../../Models/hostels");
 const Rooms = require("../../Models/hostel_rooms");
 const Canteens = require("../../Models/canteen");
+const fs = require ("fs");
+const cloudinary = require ('cloudinary').v2;
 
 const addInstitute=async (req,res)=>{
     const admin = await Admins.findById(req.user.id,{college:1});
@@ -16,6 +18,7 @@ const addInstitute=async (req,res)=>{
 } 
 
 const addHostel=async (req,res)=>{
+    const file = req.file;
     const {id} = req.body.user;
     const admin = await Admins.findById(id);
     const [Institute] = await Institutes.find({"name":admin.college});
@@ -23,18 +26,29 @@ const addHostel=async (req,res)=>{
     const {name, address, gender} = req.body;
     const college = admin.college;
     const institute = Institute._id ;
+    cloudinary.config ({
+        cloud_name : 'hosterr',
+        api_key : process.env.CLOUDINARY_API_KEY,
+        api_secret : process.env.CLOUDINARY_API_SECRET
+    });
+    let test = await cloudinary.uploader.upload (file.path, (error, cloudinary_result) => {
+        if (error) 
+            return res.status (400).send ('document upload error');
+    })
     Hostels.create({
         name,
         gender,
         address,
         college,
-        institute
+        institute,
+        room_overview : test.secure_url
     },async (err,newHostel)=>{
         if(err)
             return res.status(500).json({message:"Error in creating New Hostel in the Database",error:err});
         Institute.hostels.push(newHostel._id);
         await Institute.save();
         //console.log(institute) ;
+        
         res.status(200).json({
             newHostel
         });

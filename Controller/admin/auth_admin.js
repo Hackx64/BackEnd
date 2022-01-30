@@ -23,7 +23,7 @@ const register = async(req,res,bcrypt)=>{
         });
         let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
             if (err) 
-                return res.status (200).send ('document upload error');
+                return res.status (400).send ('document upload error');
         });
         Institutes.create({
             name:college,
