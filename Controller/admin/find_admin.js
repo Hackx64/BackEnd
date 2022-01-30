@@ -29,7 +29,7 @@ const findAllRooms = async (req,res)=>{
 
 const findAllFreeRooms = async (req,res)=>{
     try {
-        const {id} = req.user;
+        const {id} = req.body.user;
         let free=0;
         const admin = await Admins.findById(id,{institute:1});
         Institutes.findById(admin.institute).populate({path:'hostels',populate:{path:'rooms',select:'full'}}).exec((err,institute)=>{
@@ -43,7 +43,7 @@ const findAllFreeRooms = async (req,res)=>{
             res.status(200).json(free);
         });
     } catch (error) {
-
+        console.log(error) ;
         res.status(500).json({message:"Server Error during finding Free rooms",error});
     }
 
@@ -87,6 +87,7 @@ const findAllOccupied = async (req,res)=>{
         res.status(400).json("Failed to fetch users");
     }
 }
+
 
 
 
