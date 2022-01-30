@@ -25,6 +25,10 @@ const schema = mongoose.Schema ({
     per_day_charge : {
         type : Number,
         required : true
+    },
+    ispaid:{
+        type:Boolean ,
+        def: false
     }
 })
 

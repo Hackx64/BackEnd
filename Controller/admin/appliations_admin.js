@@ -18,6 +18,19 @@ const findAllApplications = async (req,res)=>{
     }
 }
 
+const findAllApplicationslength = async (req,res)=>{
+    try {
+        console.log(req.body.user)
+        const admin = await Admins.findById(req.body.user.id) ;
+        const applications = await Applications.find({"institute":admin.institute}).populate({path:'student_id',select:'name email phone gender year address'});
+        const result = applications.filter(item => item.status == null || item.status == "RC") ;
+        res.status(200).json(result.length);
+    } catch (error) {
+        //console.log(error) ;
+        res.status(500).json({message:"Error while fetching from Database",error});
+    }
+}
+
 const accept = async (req,res)=>{
     try {
         const {application_id} = req.body;
@@ -128,5 +141,6 @@ function bookRoom(id){
 module.exports={
     findAllApplications,
     accept,
-    reject
+    reject,
+    findAllApplicationslength
 }

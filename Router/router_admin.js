@@ -42,8 +42,8 @@ router.post('/add/canteen',AddController.addCanteen);
 router.post ('/add/guesthouse', (req, res) => {Guest.addGuestHouse (req, res)});
 
 //Find Rooms
-router.get('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
-router.get('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
+router.post('/rooms/all',Middlewares.checkAdmin,FindController.findAllRooms);
+router.post('/rooms/free',Middlewares.checkAdmin,FindController.findAllFreeRooms);
 
 
 //Find occupied room
@@ -59,10 +59,12 @@ router.post('/hostels/all',Middlewares.checkAdmin,FindController.findAllHostel) 
 router.post('/findApplications',ApplicationController.findAllApplications);
 router.post('/application/accept',ApplicationController.accept);
 router.post('/application/reject',ApplicationController.reject);
-
+router.post('/findApplicationslength',ApplicationController.findAllApplicationslength);
 
 
 //queries
 router.post('/findQueries',Middlewares.checkAdmin,QueryController.getAllFeedbacks);
 router.post('/query',Middlewares.checkAdmin,QueryController.sendQueryReply);
+router.post('/querieslength',Middlewares.checkAdmin,QueryController.getAllFeedbackslength);
+
 module.exports=router;

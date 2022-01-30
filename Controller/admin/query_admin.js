@@ -30,8 +30,18 @@ const sendQueryReply = async (req,res)=>{
         res.status(500).json({msg:"Failed to reply to query of Student",error});
     }
 }
+const getAllFeedbackslength = async (req,res)=>{
+    try {
+        const admin = req.body.user;
+        const queries = await Queries.find({institute:admin.institute});
+        res.status(200).json(queries.length);
+    } catch (error) {
+        res.status(500).json({msg:"Failed to fetch quries of Students",error});
+    }
 
+}
 module.exports={
     getAllFeedbacks,
-    sendQueryReply
+    sendQueryReply,
+    getAllFeedbackslength
 }
