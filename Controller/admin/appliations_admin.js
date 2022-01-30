@@ -130,7 +130,7 @@ function bookRoom(id){
         else
             room_size=1;
         let gender = student.gender;
-        Hostels.find({gender:'Boys'}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
+        Hostels.find({gender:gender,institute:student.institute}).populate('rooms',null,{roomType:room_size,full:false}).exec((err,res)=>{
             if(err)
                 return reject(err);
             resolve(res);

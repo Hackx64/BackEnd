@@ -1,6 +1,10 @@
 const Application = require ('../Models/application');
 const Users = require ('../Models/users');
 const Rooms = require('../Models/hostel_rooms');
+const Institute = require('../Models/institutes') ;
+const PGapplication = require('../Models/pgapplication');
+const pgapplicationreply = require('../Utils/nodemailer');
+const cloudinary = require ('cloudinary').v2;
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
@@ -106,11 +110,41 @@ const checkroomchange = async(req,res)=>{
    console.log(flag) ;
    return res.status(200).json(flag) ;
 }
+
+const pgapplication = async(req,res)=>{
+    const {email,phone,rooms,food,name,institute} = req.body ;
+    const inst = await Institute.find({"name":institute}) ;
+    cloudinary.config({ 
+        cloud_name: 'hosterr', 
+        api_key: process.env.CLOUDINARY_API_KEY, 
+        api_secret: process.env.CLOUDINARY_API_SECRET 
+    });
+    let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
+        if (err) 
+            return res.status (200).send ('document upload error');
+    });
+    const pg  = await PGapplication.create({
+       email ,
+       phone ,
+       rooms ,
+       food ,
+       name ,
+       institute: inst.id 
+    });
+    const mail = pgapplicationreply(email,name,inst.name);
+    let info = transporter.sendMail(mail,(err,info)=>{
+        if(err)return res.status(500).json({msg:"Unable to send query reply to student",err});
+        res.status(200).json("Mail sent successfully");
+    });
+
+    res.status(200).json("Your Response is recorded !");  
+}
 module.exports = {
     sendApplication,
     getHostel,
     getApplication,
     roomchangeapplication,
     leaveHostel,
-    checkroomchange
+    checkroomchange,
+    pgapplication
 }

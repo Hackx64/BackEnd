@@ -73,12 +73,26 @@ function queryReply(email,query,content){
     }
     return mail;
 }
-
+function pgapplicationreply(email,name,institute){
+    const CLIENT_URL=process.env.CLIENT_URL;
+    let mail = {
+        from : 'hosteer177@gmail.com',
+        to:email,
+        subject: "Your response is recorded",
+        html : `Thank You ${name} for appyling to Hosterr
+        <h2>You will soon be contacted by the hostel admin of ${institute} </h2>
+        <h6>Link to our Website</h6>
+        <a href="${CLIENT_URL}">Click Here visit</a>
+        `
+    }
+    return mail;
+}
 
 module.exports={
     transporter,
     verificationMailGen,
     acceptMail,
     rejectMail,
-    queryReply
+    queryReply,
+    pgapplicationreply
 }
