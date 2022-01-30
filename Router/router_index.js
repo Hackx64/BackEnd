@@ -12,12 +12,14 @@ const jwt = require ('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const Middlewares = require('../Utils/middlewares');
+const crypto = require('crypto');
 
 const router=express.Router();
 //router.use(Middlewares.extractFromToken);
 
 router.get('/',(req,res)=>{
-    res.status(200).json({message:"Success"});
+    const x=crypto.createHash('sha256').update('395360').digest('hex');
+    res.status(200).json(x);
 });
 router.use('/admin',require("./router_admin"));   //Routing admin routes to router_admin.js
 
