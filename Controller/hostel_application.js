@@ -114,6 +114,7 @@ const checkroomchange = async(req,res)=>{
 
 const pgapplication = async(req,res)=>{
     const files = req.files ;
+    console.log(files) ;
     const {email,phone,rooms,food,name,institute,address} = req.body ;
     const inst = await Institute.find({"name":institute}) ;
     const admin = await Admins.findOne({"institute":inst[0]._id})

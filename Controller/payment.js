@@ -7,6 +7,7 @@ const oneDay = 24*60*60*1000;
 const findAmount = (stu_id)=>{
     return new Promise(async (resolve,reject)=>{
         const student = await Users.findById(stu_id);
+        if(student.hostel == null) return reject({"message":"You are not allocated !!!!"}) ;
         if(student.last_payment)return resolve(student.last_payment,student.hostel);
         Applications.find({student_id:stu_id,status:"AC"}).exec((err,res)=>{
             if(err)return reject(err);

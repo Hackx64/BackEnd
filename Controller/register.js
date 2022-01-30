@@ -60,7 +60,7 @@ const verify = async (req,res,bcrypt,jwt)=>{
 const update = (req,res)=>{
     //console.log(req.body) ;
     const {user,roll,department,gender,address} = req.body ;
-    Users.findOneAndUpdate({'_id':user},{$set :{roll:roll , gender:gender , department:department , address:address}},(err,ress)=>{
+    Users.findOneAndUpdate({'_id':user},{$set :{roll:roll , gender:gender , department:department , address:address , year:year}},(err,ress)=>{
         if(err) return res.status(400).json(err) ;
         return res.status(200).json("Profile Succesfully Updated !!!") ;
     });
