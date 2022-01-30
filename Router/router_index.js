@@ -5,6 +5,7 @@ const Application = require ('../Controller/hostel_application');
 const GetData = require('../Controller/get_data');
 const Query = require ('../Controller/query');
 const BookGuestHouse = require ('../Controller/book_guest_house');
+const CowinVaccination = require('../Controller/cowin_verify');
 
 const express=require("express");
 const bcrypt = require('bcrypt-nodejs');
@@ -38,6 +39,13 @@ router.post('/login',(req,res)=>{
 router.get('/verifytoken/:token',(req,res)=>{
     Login.getuser(req,res,jwt)
 });
+
+
+//Vaccination Verification for student before booking hostel
+router.post('/mobile',CowinVaccination.mobile);
+router.post('/otp',CowinVaccination.otp);
+router.post('/beneficiary',CowinVaccination.beneficiary);
+
 
 //for Booking a hostel
 router.post ('/application',Middlewares.checkUserAuthentication, (req, res) => {

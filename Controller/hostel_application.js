@@ -5,6 +5,7 @@ const Institute = require('../Models/institutes') ;
 const PGapplication = require('../Models/pgapplication');
 const pgapplicationreply = require('../Utils/nodemailer');
 const cloudinary = require ('cloudinary').v2;
+const Admins = require('../Models/admins');
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
@@ -114,6 +115,7 @@ const checkroomchange = async(req,res)=>{
 const pgapplication = async(req,res)=>{
     const {email,phone,rooms,food,name,institute} = req.body ;
     const inst = await Institute.find({"name":institute}) ;
+    const admin = await Admins.find({"institute":inst.id})
     cloudinary.config({ 
         cloud_name: 'hosterr', 
         api_key: process.env.CLOUDINARY_API_KEY, 
@@ -131,7 +133,7 @@ const pgapplication = async(req,res)=>{
        name ,
        institute: inst.id 
     });
-    const mail = pgapplicationreply(email,name,inst.name);
+    const mail = pgapplicationreply(admin.email,email,name,phone,inst.name);
     let info = transporter.sendMail(mail,(err,info)=>{
         if(err)return res.status(500).json({msg:"Unable to send query reply to student",err});
         res.status(200).json("Mail sent successfully");
