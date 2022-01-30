@@ -19,8 +19,7 @@ const router=express.Router();
 //router.use(Middlewares.extractFromToken);
 
 router.get('/',(req,res)=>{
-    const x=crypto.createHash('sha256').update('395360').digest('hex');
-    res.status(200).json(x);
+    res.status(200).json({message : "success"});
 });
 router.use('/admin',require("./router_admin"));   //Routing admin routes to router_admin.js
 
