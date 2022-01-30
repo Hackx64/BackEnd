@@ -24,4 +24,7 @@ db.connect ((err) => {
     }
 })
 
-module.exports=mongoose;
+module.exports={
+    mongoose ,
+    db
+};

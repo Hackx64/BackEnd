@@ -64,5 +64,5 @@ router.post('/application/reject',ApplicationController.reject);
 
 //queries
 router.post('/findQueries',Middlewares.checkAdmin,QueryController.getAllFeedbacks);
-router.post('/query/:query_id',Middlewares.checkAdmin,QueryController.sendQueryReply);
+router.post('/query',Middlewares.checkAdmin,QueryController.sendQueryReply);
 module.exports=router;

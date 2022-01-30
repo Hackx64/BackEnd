@@ -64,7 +64,7 @@ function queryReply(email,query,content){
     let mail = {
         from : 'hosteer177@gmail.com',
         to:email,
-        subject: "Query Update",
+        subject: "From The Hostel Admin",
         html : `In response to your query: <h4>${query}</h4>
         <h2>${content}</h2>
         <h6>Link to our Website</h6>

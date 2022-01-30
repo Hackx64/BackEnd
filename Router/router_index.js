@@ -85,4 +85,12 @@ router.post('/application/status/user',Middlewares.checkUserAuthentication , (re
   Application.getApplication(req,res);
 });
 
+//For finding user's room detail
+router.post('/hostel/getdetails',Middlewares.checkUserAuthentication,(req,res)=>{
+    GetData.findroomdetails(req,res) ;  
+})
+//For checking the room change status
+router.post('/roomchange/details',Middlewares.checkUserAuthentication,(req,res)=>{
+    Application.checkroomchange(req,res) ;
+})
 module.exports=router;
