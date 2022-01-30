@@ -104,7 +104,11 @@ router.post('/roomchange/details',Middlewares.checkUserAuthentication,(req,res)=
 })
 
 //For adding the PG 
-router.post('/connect/pgbusinesss',(req,res)=>{
+router.post('/connect/pgbusiness',(req,res)=>{
     Application.pgapplication(req,res) ;
+})
+//Get all the institutes
+router.get('/getall/institutes',(req,res)=>{
+    GetData.getAllinstitutes(req,res) ;
 })
 module.exports=router;
