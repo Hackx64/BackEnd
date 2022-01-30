@@ -68,7 +68,7 @@ const roomchangeapplication = async(req,res)=>{
                 student_id:result.id,
                 student_email:email,
                 status:"RC",
-                student_disability:flag[0].disability_status,
+                student_disability:flag[0].student_disability,
                 reason : reason
             }).save ((err, result) => {
                 if (err) {
