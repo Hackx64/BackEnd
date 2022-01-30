@@ -102,4 +102,9 @@ router.post('/hostel/getdetails',Middlewares.checkUserAuthentication,(req,res)=>
 router.post('/roomchange/details',Middlewares.checkUserAuthentication,(req,res)=>{
     Application.checkroomchange(req,res) ;
 })
+
+//For adding the PG 
+router.post('/connect/pgbusinesss',(req,res)=>{
+    Application.pgapplication(req,res) ;
+})
 module.exports=router;

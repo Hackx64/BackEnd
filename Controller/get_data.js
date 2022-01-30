@@ -1,6 +1,7 @@
 const Admins = require("../Models/admins");
 const Canteens = require("../Models/canteen");
 const Hostels = require('../Models/hostels');
+const Institutes = require("../Models/institutes");
 const Users = require('../Models/users')
 
 const getCanteen = async (req,res)=>{
@@ -44,10 +45,19 @@ res.status(200).json([users_with_room,name]);
         res.status(400).json("Failed to fetch users");
     }
 }
-
+const getAllinstitutes = async(req,res)=>{
+    try{
+     const institutes = await Institutes.find({},{name:1}) ;
+     res.status(200).json(institutes) ;
+    }
+    catch{
+        res.status(400).json("Error in fetching university") ;
+    }
+}
 module.exports={
     getCanteen,
     findPositionLink,
-    findroomdetails
+    findroomdetails,
+    getAllinstitutes
 }
 

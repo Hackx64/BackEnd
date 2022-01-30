@@ -113,7 +113,8 @@ const checkroomchange = async(req,res)=>{
 }
 
 const pgapplication = async(req,res)=>{
-    const {email,phone,rooms,food,name,institute} = req.body ;
+    const files = req.files ;
+    const {email,phone,rooms,food,name,institute,address} = req.body ;
     const inst = await Institute.find({"name":institute}) ;
     const admin = await Admins.find({"institute":inst.id})
     cloudinary.config({ 
@@ -121,10 +122,22 @@ const pgapplication = async(req,res)=>{
         api_key: process.env.CLOUDINARY_API_KEY, 
         api_secret: process.env.CLOUDINARY_API_SECRET 
     });
-    let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
+    let test = await cloudinary.uploader.upload (files[0].path, (err, result) => {   
         if (err) 
             return res.status (200).send ('document upload error');
     });
+    let test1 = await cloudinary.uploader.upload (files[1].path, (err, result) => {   
+        if (err) 
+            return res.status (200).send ('document upload error');
+    });
+    let test2 = await cloudinary.uploader.upload (files[2].path, (err, result) => {   
+        if (err) 
+            return res.status (200).send ('document upload error');
+    });
+    const document = test.secure_url ;
+    const imagelink1 = test1.secure_url ;
+    const imagelink2 = test2.secure_url ;
+    /*
     const pg  = await PGapplication.create({
        email ,
        phone ,
@@ -133,7 +146,8 @@ const pgapplication = async(req,res)=>{
        name ,
        institute: inst.id 
     });
-    const mail = pgapplicationreply(admin.email,email,name,phone,inst.name);
+    */
+    const mail = pgapplicationreply(admin.email,email,name,phone,address,rooms,food,imagelink1,imagelink2,document);
     let info = transporter.sendMail(mail,(err,info)=>{
         if(err)return res.status(500).json({msg:"Unable to send query reply to student",err});
         res.status(200).json("Mail sent successfully");

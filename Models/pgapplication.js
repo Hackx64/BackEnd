@@ -23,7 +23,7 @@ const schema = new mongoose.Schema ({
     },
     food:{
         type: Boolean ,
-        required : true
+        enum:["Yes","No"]
     },
     photos:[{
         type:String ,
