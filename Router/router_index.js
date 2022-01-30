@@ -104,7 +104,7 @@ router.post('/roomchange/details',Middlewares.checkUserAuthentication,(req,res)=
     Application.checkroomchange(req,res) ;
 })
 //For adding the PG 
-router.post('/connect/pgbusiness',upload.array('files[]', 6), (req,res)=>{
+router.post('/connect/pgbusiness',upload.array ('files', 6), (req,res)=>{
     Application.pgapplication(req,res) ;
 })
 //Get all the institutes
