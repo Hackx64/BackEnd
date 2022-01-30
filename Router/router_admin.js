@@ -30,7 +30,7 @@ router.get('/verifytoken/:token',(req,res)=>{
 router.post('/add/institute',Middlewares.checkAdmin,AddController.addInstitute);
 
 //Add Hostel
-router.post('/add/hostel',Middlewares.checkAdmin,AddController.addHostel);
+router.post('/add/hostel',upload.single('file'), Middlewares.checkAdmin,AddController.addHostel);
 
 //Add Room
 router.post('/add/room',Middlewares.checkAdmin,AddController.addRoom);
