@@ -1,5 +1,6 @@
 const Application = require ('../Models/application');
 const Users = require ('../Models/users');
+const Rooms = require('../Models/hostel_rooms');
 
 const sendApplication = (req, res) => {
     const {email , disability_status} = req.body;
@@ -80,9 +81,29 @@ const roomchangeapplication = async(req,res)=>{
         }
     });
 }
+
+const leaveHostel = async (req,res) =>{
+    try {
+        const student_id = req.body.user;
+        const student = await Users.findById(student_id);
+        if(!student.hostel)return res.status(400).json("You don't have a Hostel!");
+        const room = await Rooms.findById(student.hostel);
+        room.residents.pull(student_id);
+        if(room.full)
+            room.full=false;
+        student.hostel = false;
+        await room.save();
+        await student.save();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg:"Internal Server Error",error});
+    }
+}
+
 module.exports = {
     sendApplication,
     getHostel,
     getApplication,
-    roomchangeapplication
+    roomchangeapplication,
+    leaveHostel
 }

@@ -52,6 +52,9 @@ router.get ('/getHostel', Middlewares.checkUserAuthentication,(req, res) => {
     Application.getHostel (res, res);    
 });
 
+//Leaving Hostel
+router.post('/leave/hostel',Middlewares.checkUserAuthentication,Application.leaveHostel);
+
 //payment
 router.post('/pay/detail',Middlewares.checkUserAuthentication,Payment.findPaymentAmount);
 router.post('/pay', Middlewares.checkUserAuthentication,(req, res) => {
