@@ -3,7 +3,7 @@ const Users = require ('../Models/users');
 const Rooms = require('../Models/hostel_rooms');
 const Institute = require('../Models/institutes') ;
 const PGapplication = require('../Models/pgapplication');
-const pgapplicationreply = require('../Utils/nodemailer');
+const { transporter, pgapplicationreply } = require('../Utils/nodemailer');
 const cloudinary = require ('cloudinary').v2;
 const Admins = require('../Models/admins');
 
@@ -116,7 +116,8 @@ const pgapplication = async(req,res)=>{
     const files = req.files ;
     const {email,phone,rooms,food,name,institute,address} = req.body ;
     const inst = await Institute.find({"name":institute}) ;
-    const admin = await Admins.find({"institute":inst.id})
+    const admin = await Admins.findOne({"institute":inst[0]._id})
+
     cloudinary.config({ 
         cloud_name: 'hosterr', 
         api_key: process.env.CLOUDINARY_API_KEY, 
@@ -152,8 +153,6 @@ const pgapplication = async(req,res)=>{
         if(err)return res.status(500).json({msg:"Unable to send query reply to student",err});
         res.status(200).json("Mail sent successfully");
     });
-
-    res.status(200).json("Your Response is recorded !");  
 }
 module.exports = {
     sendApplication,

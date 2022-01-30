@@ -14,7 +14,7 @@ const schema = new mongoose.Schema ({
         required: true
     },
     institute:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         ref:'Institutes'
     },
     name: {
