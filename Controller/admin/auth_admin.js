@@ -66,7 +66,7 @@ const login = (req,res,bcrypt,jwt)=>{
             }
             return res.status(401).json("Wrong Password") ;
         }
-        res.status(200).json('No such user exists , Pls register !') ;
+        res.status(400).json('No such user exists , Pls register !') ;
     })
 }
 const getAdmin = (req,res,jwt)=>{

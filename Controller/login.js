@@ -19,7 +19,7 @@ const login = (req,res,bcrypt,jwt)=>{
             else res.status(401).json("Wrong Password") ;
         }
         else{
-            return res.status(200).json('No such user exists , Pls register !') ;
+            return res.status(400).json('No such user exists , Pls register !') ;
         }
     })
 }
