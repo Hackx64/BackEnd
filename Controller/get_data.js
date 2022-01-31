@@ -12,7 +12,10 @@ const getCanteen = async (req,res)=>{
         const institute = student.institute;
         const canteens_open = await Canteens.find({institute:institute,start:{$lte:s},end:{$gte:s}});
         const canteens_closed = await Canteens.find({institute:institute,$or:[{start:{$gt:s}},{end:{$lt:s}}]});
-        res.status(200).json({canteens_open,canteens_closed});
+        console.log(canteens_open) ;
+        console.log(canteens_closed) ;
+        console.log(s) ;
+        res.status(200).json({"open":canteens_open,"closed":canteens_closed});
     } catch (error) {
         console.log(error)
         res.status(400).json({msg:"Could not find canteens",error});
