@@ -35,10 +35,10 @@ const findroomdetails = async (req,res)=>{
     try {
         const user = req.body.user;
         const id = user.id;
-const users_with_room = await Users.findById(id).populate({path:'hostel',select:'roomno fees hostelId',populate:{path:'hostelId',select:'name address college'}});
-const [admin] = await Admins.find({"institute":user.institute}) ;  
-const {name} = admin  
-res.status(200).json([users_with_room,name]);
+        const users_with_room = await Users.findById(id).populate({path:'hostel',select:'roomno fees hostelId',populate:{path:'hostelId',select:'name address college'}});
+        const [admin] = await Admins.find({"institute":user.institute}) ;  
+        const {name} = admin  
+        res.status(200).json([users_with_room,name]);
     } catch (error){
         console.log(error);
         res.status(400).json("Failed to fetch users");
