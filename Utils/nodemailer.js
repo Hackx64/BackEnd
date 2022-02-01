@@ -73,16 +73,27 @@ function queryReply(email,query,content){
     }
     return mail;
 }
-function pgapplicationreply(email,name,institute){
-    const CLIENT_URL=process.env.CLIENT_URL;
+function pgapplicationreply(adminmail,email,name,phone,address,rooms,food,imglink1,imglink2,document){
     let mail = {
         from : 'hosteer177@gmail.com',
-        to:email,
-        subject: "Your response is recorded",
-        html : `Thank You ${name} for appyling to Hosterr
-        <h2>You will soon be contacted by the hostel admin of ${institute} </h2>
-        <h6>Link to our Website</h6>
-        <a href="${CLIENT_URL}">Click Here visit</a>
+        to:adminmail,
+        subject: "Application for PG approval",
+        html : `A person named ${name} wants to connect his/her PG with your institute
+        <div>
+        <p>Address : ${address}</p>
+        <p>Number of rooms : ${rooms}</p>
+        <p>Food facility Available : ${food}</p>
+        </div>
+        For verifying document <a href="${document}">click here</a>
+        <h3>You can contact him by :</h3>
+        <br>
+        email : ${email}
+        <br>
+        phone : ${phone}
+        <br>
+        Attaching room photos 
+        <img src="${imglink1}">
+        <img src="${imglink2}">
         `
     }
     return mail;

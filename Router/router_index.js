@@ -14,7 +14,8 @@ const nodemailer = require('nodemailer');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const Middlewares = require('../Utils/middlewares');
 const crypto = require('crypto');
-
+const multer = require ('multer');
+const upload = multer ({dest : 'Uploads/'});
 const router=express.Router();
 //router.use(Middlewares.extractFromToken);
 
@@ -101,5 +102,13 @@ router.post('/hostel/getdetails',Middlewares.checkUserAuthentication,(req,res)=>
 //For checking the room change status
 router.post('/roomchange/details',Middlewares.checkUserAuthentication,(req,res)=>{
     Application.checkroomchange(req,res) ;
+})
+//For adding the PG 
+router.post('/connect/pgbusiness',upload.array ('files', 6), (req,res)=>{
+    Application.pgapplication(req,res) ;
+})
+//Get all the institutes
+router.get('/getall/institutes',(req,res)=>{
+    GetData.getAllinstitutes(req,res) ;
 })
 module.exports=router;

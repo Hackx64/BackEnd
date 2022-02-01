@@ -11,6 +11,7 @@ const findAllApplications = async (req,res)=>{
         const admin = await Admins.findById(req.body.user.id) ;
         const applications = await Applications.find({"institute":admin.institute}).populate({path:'student_id',select:'name email phone gender year address'});
         const result = applications.filter(item => item.status != "AC") ;
+        
         res.status(200).json(result);
     } catch (error) {
         //console.log(error) ;
@@ -39,9 +40,7 @@ const accept = async (req,res)=>{
             return res.status(400).json("Provide Application id of the application");
         
         const application = await Applications.findById(application_id);
-        application.status = "AC";
         const email = application.student_email;
-        await application.save();
 
         const mail = acceptMail(email);
 
@@ -70,7 +69,8 @@ const accept = async (req,res)=>{
                 room.full=true;
             await room.save();
             await student.save();
-            
+            application.status = "AC";
+            await application.save();
             res.status(200).json({msg:"Application accepted!",room});
             let info = transporter.sendMail (mail, (error, info) => {
                 if(error) {
@@ -125,7 +125,7 @@ function bookRoom(id){
         let student = await Users.findById(id);
         let year = student.year;
         let room_size=null;
-        if(year===1)room_size=3;
+        if(year==1)room_size=3;
         else if(year==2)room_size=2;
         else
             room_size=1;

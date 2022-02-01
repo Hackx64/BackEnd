@@ -23,7 +23,7 @@ const register = async(req,res,bcrypt)=>{
         });
         let test = await cloudinary.uploader.upload (file.path, (err, result) => {   
             if (err) 
-                return res.status (200).send ('document upload error');
+                return res.status (400).send ('document upload error');
         });
         Institutes.create({
             name:college,
@@ -66,7 +66,7 @@ const login = (req,res,bcrypt,jwt)=>{
             }
             return res.status(401).json("Wrong Password") ;
         }
-        res.status(200).json('No such user exists , Pls register !') ;
+        res.status(400).json('No such user exists , Pls register !') ;
     })
 }
 const getAdmin = (req,res,jwt)=>{

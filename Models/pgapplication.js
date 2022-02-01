@@ -14,7 +14,7 @@ const schema = new mongoose.Schema ({
         required: true
     },
     institute:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         ref:'Institutes'
     },
     name: {
@@ -23,7 +23,7 @@ const schema = new mongoose.Schema ({
     },
     food:{
         type: Boolean ,
-        required : true
+        enum:["Yes","No"]
     },
     photos:[{
         type:String ,
