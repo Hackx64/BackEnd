@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const axios = require('axios') ;
 
 const mobile=(req,res)=>{
     const {mobile} = req.body;
@@ -35,7 +36,7 @@ const otp=(req,res)=>{
         console.log(err);
         res.status(403).json("Invalid OTP Number!");
     })
-    res.render('beneficiary');
+    //res.render('beneficiary');
 };
 
 const beneficiary = (req,res)=>{
