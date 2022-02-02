@@ -94,7 +94,7 @@ const leaveHostel = async (req,res) =>{
         if(!student.hostel)return res.status(400).json("You don't have a Hostel!");
         const room = await Rooms.findById(student.hostel);
         const application = Application.findOne({"student_id":student_id});
-        application.status = null ;
+        application.delete() ;
         await application.save() ;
         room.residents.pull(student_id);
         if(room.full)
