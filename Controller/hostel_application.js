@@ -94,12 +94,16 @@ const leaveHostel = async (req,res) =>{
         const student = await Users.findById(student_id);
         if(!student.hostel)return res.status(400).json("You don't have a Hostel!");
         const room = await Rooms.findById(student.hostel);
+        const application = Application.findOne({"student_id":student_id});
+        application.remove() ;
+        await application.save() ;
         room.residents.pull(student_id);
         if(room.full)
             room.full=false;
-        student.hostel = false;
+        student.hostel = null;
         await room.save();
         await student.save();
+        res.status(200).json("Done") ;
     } catch (error) {
         console.log(error);
         res.status(500).json({msg:"Internal Server Error",error});
